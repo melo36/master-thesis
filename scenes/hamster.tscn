@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://bubkruqvhn4k7"]
+
+[ext_resource type="PackedScene" uid="uid://bjru4hnbbitmh" path="res://scenes/character_without_hitbox.tscn" id="1_ejryl"]
+[ext_resource type="Script" uid="uid://bjpmu5sklv5h8" path="res://addons/raytraced_audio/raytraced_audio_listener.gd" id="2_apgft"]
+[ext_resource type="AudioStream" uid="uid://goyage7rxmg6" path="res://sounds/620340__marb7e__footsteps_sneakers_underbrush_walk04.wav" id="3_7vfxu"]
+[ext_resource type="Script" uid="uid://dkb8ltjc6067n" path="res://addons/raytraced_audio/raytraced_audio_player_3d.gd" id="3_tpwgc"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_apgft"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=527582928]
+
+[node name="hamster_character" parent="." unique_id=324042045 instance=ExtResource("1_ejryl")]
+
+[node name="Skeleton3D" parent="hamster_character" index="2" unique_id=1560551287]
+bones/0/rotation = Quaternion(-0.03737709, -0.44919476, -0.017734287, 0.8924755)
+bones/1/rotation = Quaternion(0.010164759, 0.13094047, 0.0002624286, 0.99133813)
+bones/2/rotation = Quaternion(0.09305799, 0.08142368, -0.010801487, 0.9922671)
+bones/3/rotation = Quaternion(0.09319709, 0.08143294, -0.010830126, 0.9922529)
+bones/4/rotation = Quaternion(0.019691272, -0.010641529, 0.0013716923, 0.9997485)
+bones/5/rotation = Quaternion(-0.07001873, 0.17765258, -0.00076091045, 0.9815989)
+bones/7/rotation = Quaternion(-0.5309704, -0.47758654, 0.54965085, -0.4334346)
+bones/8/rotation = Quaternion(0.3435687, 0.52753407, 0.36682466, 0.6849146)
+bones/9/rotation = Quaternion(0.26177022, -0.7931974, 0.3280382, -0.44125423)
+bones/10/rotation = Quaternion(0.09837129, 0.14352907, 0.020068318, 0.98454046)
+bones/11/rotation = Quaternion(-0.09039599, -0.786941, -0.017114356, 0.61013085)
+bones/12/rotation = Quaternion(0.5161721, 0.09738471, 0.087135665, 0.84645736)
+bones/15/rotation = Quaternion(0.5911289, -0.4219829, 0.50787866, 0.4632024)
+bones/16/rotation = Quaternion(0.46072805, 0.095605895, 0.22709765, 0.8526523)
+bones/17/rotation = Quaternion(0.09395096, -0.0118161775, -0.35857907, 0.9286844)
+bones/18/rotation = Quaternion(0.14724621, 0.42132127, -0.01673705, 0.89472175)
+bones/19/rotation = Quaternion(-0.03973998, 0.9965788, 0.011477768, -0.07155194)
+bones/20/rotation = Quaternion(0.33950892, -0.049943697, -0.050040863, 0.9379421)
+bones/23/rotation = Quaternion(0.086082034, 0.5084589, 0.720557, -0.46352687)
+bones/24/rotation = Quaternion(-0.23264487, 0.3147068, -0.11987527, 0.9123957)
+bones/25/rotation = Quaternion(-0.047394753, -0.8568508, -0.3562536, 0.36965373)
+bones/26/rotation = Quaternion(0.22289851, 0.4818272, -0.16349208, 0.83152217)
+bones/28/rotation = Quaternion(-0.13143419, -0.37354034, 0.67879456, 0.6184098)
+bones/29/rotation = Quaternion(-0.05935069, -0.051137976, 0.06291535, 0.9949392)
+bones/30/rotation = Quaternion(-0.058701903, 0.5724412, 0.8113854, 0.102562465)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1083905860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9204389, -0.10208094)
+shape = SubResource("CapsuleShape3D_apgft")
+
+[node name="LookAt" type="Node3D" parent="." unique_id=1403502693]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2297807, -0.21631289)
+
+[node name="RaytracedAudioListener" type="AudioListener3D" parent="." unique_id=856202275]
+script = ExtResource("2_apgft")
+metadata/_custom_type_script = "uid://bjpmu5sklv5h8"
+
+[node name="RaytracedAudioPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1201174410]
+stream = ExtResource("3_7vfxu")
+script = ExtResource("3_tpwgc")
+metadata/_custom_type_script = "uid://dkb8ltjc6067n"
+
+[editable path="hamster_character"]

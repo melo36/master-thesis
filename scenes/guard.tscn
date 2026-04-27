@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://ir335gkyusmm"]
+
+[ext_resource type="Script" uid="uid://bx7gmts57qet5" path="res://scripts/guard_noise_behavior.gd" id="1_ci2qi"]
+[ext_resource type="Script" uid="uid://cndk6qmwj7qyo" path="res://scripts/guard_brain.gd" id="1_k0dx2"]
+[ext_resource type="Script" uid="uid://bjpmu5sklv5h8" path="res://addons/raytraced_audio/raytraced_audio_listener.gd" id="1_m4fl1"]
+[ext_resource type="Script" uid="uid://bpajbi2wk1nxv" path="res://scripts/guard_vision_behavior.gd" id="5_gn8tx"]
+[ext_resource type="Script" uid="uid://4dkpyhsv7o23" path="res://scripts/guard_movement.gd" id="6_5dfqo"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_2hhgp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2hhgp"]
+albedo_color = Color(0.5500251, 0, 0.08619741, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m4fl1"]
+
+[sub_resource type="GDScript" id="GDScript_ci2qi"]
+script/source = "extends NavigationAgent3D
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_k0dx2"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gn8tx"]
+top_radius = 0.0
+bottom_radius = 2.0
+height = 5.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gn8tx"]
+transparency = 1
+shading_mode = 0
+
+[node name="Guard" type="CharacterBody3D" unique_id=1404609476]
+script = ExtResource("1_k0dx2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=621701328]
+transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_2hhgp")
+surface_material_override/0 = SubResource("StandardMaterial3D_2hhgp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=937642194]
+transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_m4fl1")
+
+[node name="RaytracedAudioListener" type="AudioListener3D" parent="." unique_id=955631534]
+script = ExtResource("1_m4fl1")
+metadata/_custom_type_script = "uid://bjpmu5sklv5h8"
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=823578958]
+debug_enabled = true
+script = SubResource("GDScript_ci2qi")
+
+[node name="Face" type="MeshInstance3D" parent="." unique_id=1261942612]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -0.002, 0.5, -0.2)
+mesh = SubResource("BoxMesh_k0dx2")
+
+[node name="NoiseSensor" type="Node3D" parent="." unique_id=115091329]
+script = ExtResource("1_ci2qi")
+decay_rate = 0.2
+
+[node name="VisionSensor" type="Node3D" parent="." unique_id=1941893463 node_paths=PackedStringArray("cone_mesh_instance")]
+script = ExtResource("5_gn8tx")
+cone_mesh_instance = NodePath("../VisionCone")
+
+[node name="GuardMovement" type="Node3D" parent="." unique_id=1159603037]
+script = ExtResource("6_5dfqo")
+speed = 3
+tolerance = 2
+
+[node name="VisionCone" type="MeshInstance3D" parent="." unique_id=1479462717]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -2.887258)
+mesh = SubResource("CylinderMesh_gn8tx")
+surface_material_override/0 = SubResource("StandardMaterial3D_gn8tx")
