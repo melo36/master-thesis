@@ -17,6 +17,11 @@ var last_seen_time := 0.0
 var last_known_position: Vector3
 var has_memory := false
 
+# Player velocity tracking (used by the chase influence-map solver)
+var last_known_velocity: Vector3 = Vector3.ZERO
+var _previous_player_position: Vector3
+var _has_previous_position: bool = false
+
 @onready var guard: CharacterBody3D = get_parent()
 
 
@@ -34,10 +39,18 @@ func _physics_process(delta):
 	if seen_now:
 		detection_strength += detection_speed * delta
 		last_seen_time = now
+		# Estimate player velocity from successive sightings
+		if _has_previous_position and delta > 0.0:
+			last_known_velocity = (player.global_position - _previous_player_position) / delta
+		_previous_player_position = player.global_position
+		_has_previous_position = true
 		last_known_position = player.global_position
 		has_memory = true
 	else:
 		detection_strength -= detection_speed * delta
+		# Reset the previous-position cache so a stale value isn't used
+		# next time the player re-enters the cone after a long gap.
+		_has_previous_position = false
 
 	detection_strength = clamp(detection_strength, 0.0, 1.0)
 
@@ -61,6 +74,10 @@ func get_detection_strength() -> float:
 
 func get_last_known_position() -> Vector3:
 	return last_known_position
+
+
+func get_last_known_velocity() -> Vector3:
+	return last_known_velocity
 
 
 func has_target_memory() -> bool:

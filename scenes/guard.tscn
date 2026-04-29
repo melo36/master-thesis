@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://bjpmu5sklv5h8" path="res://addons/raytraced_audio/raytraced_audio_listener.gd" id="1_m4fl1"]
 [ext_resource type="Script" uid="uid://bpajbi2wk1nxv" path="res://scripts/guard_vision_behavior.gd" id="5_gn8tx"]
 [ext_resource type="Script" uid="uid://4dkpyhsv7o23" path="res://scripts/guard_movement.gd" id="6_5dfqo"]
+[ext_resource type="Script" uid="uid://bw366snicme0g" path="res://scripts/chase_influence_map.gd" id="7_chasemap"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2hhgp"]
 
@@ -20,9 +21,6 @@ script/source = "extends NavigationAgent3D
 [sub_resource type="BoxMesh" id="BoxMesh_k0dx2"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gn8tx"]
-top_radius = 0.0
-bottom_radius = 2.0
-height = 5.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gn8tx"]
 transparency = 1
@@ -30,6 +28,7 @@ shading_mode = 0
 
 [node name="Guard" type="CharacterBody3D" unique_id=1404609476]
 script = ExtResource("1_k0dx2")
+min_search_duration = 20.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=621701328]
 transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
@@ -59,6 +58,9 @@ decay_rate = 0.2
 [node name="VisionSensor" type="Node3D" parent="." unique_id=1941893463 node_paths=PackedStringArray("cone_mesh_instance")]
 script = ExtResource("5_gn8tx")
 cone_mesh_instance = NodePath("../VisionCone")
+view_distance = 30.0
+view_angle_deg = 90.0
+memory_duration = 50.0
 
 [node name="GuardMovement" type="Node3D" parent="." unique_id=1159603037]
 script = ExtResource("6_5dfqo")
@@ -69,3 +71,6 @@ tolerance = 2
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -2.887258)
 mesh = SubResource("CylinderMesh_gn8tx")
 surface_material_override/0 = SubResource("StandardMaterial3D_gn8tx")
+
+[node name="ChaseInfluenceMap" type="Node" parent="." unique_id=2057481093]
+script = ExtResource("7_chasemap")
