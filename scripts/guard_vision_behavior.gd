@@ -7,6 +7,10 @@ extends Node3D
 @export var memory_duration: float = 2.0
 
 @export var detection_speed: float = 2.5
+# Detection speed multiplier at the far edge of view_distance. 1.0 = no
+# distance falloff, 0.0 = no detection at the edge. Detection is interpolated
+# linearly between full speed (player at 0 m) and this value (player at view_distance).
+@export_range(0.0, 1.0) var detection_falloff_min: float = 0.1
 @export var show_debug_cone: bool = true
 
 var player: Node3D
@@ -37,7 +41,11 @@ func _physics_process(delta):
 	# Smooth detection buildup / decay
 	# -------------------------------------------------
 	if seen_now:
-		detection_strength += detection_speed * delta
+		# Distance falloff — closer player = faster detection.
+		var dist: float = guard.global_position.distance_to(player.global_position)
+		var t: float = clamp(dist / view_distance, 0.0, 1.0)
+		var dist_factor: float = lerp(1.0, detection_falloff_min, t)
+		detection_strength += detection_speed * dist_factor * delta
 		last_seen_time = now
 		# Estimate player velocity from successive sightings
 		if _has_previous_position and delta > 0.0:

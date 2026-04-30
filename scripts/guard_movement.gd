@@ -3,6 +3,9 @@ extends Node3D
 @onready var guard: CharacterBody3D = $".."
 @onready var navigation_agent_3d: NavigationAgent3D = $"../NavigationAgent3D"
 @export var speed = 5
+# Speed multiplier applied while CHASE-ing or SEARCH_LOST-ing (the brain
+# routes SEARCH_LOST through CHASE), to make the guard feel threatening.
+@export var chase_speed_multiplier: float = 1.5
 @onready var patrol_points = $"../../PatrolRoute".get_children()
 @export var tolerance = 5
 
@@ -61,10 +64,10 @@ func _physics_process(delta: float) -> void:
 			guard.rotation.y = lerp_angle(guard.rotation.y, target_rotation, 5 * delta)
 			
 	elif state == State.INVESTIGATE:
-		move_along_nav(delta)
-		
+		move_along_nav(delta, speed)
+
 	elif state == State.CHASE:
-		move_along_nav(delta)
+		move_along_nav(delta, speed * chase_speed_multiplier)
 		
 	elif state == State.DEFAULT:
 		var direction = (target_position - guard.global_position).normalized()
@@ -79,15 +82,15 @@ func get_next_patrol_point() -> Vector3:
 	current_index = (current_index + 1) % patrol_points.size()
 	return point
 
-func move_along_nav(delta: float):
+func move_along_nav(delta: float, move_speed: float = speed):
 	navigation_agent_3d.set_target_position(target_position)
 	var next = navigation_agent_3d.get_next_path_position()
 	var direction = (next - guard.global_position).normalized()
-	
+
 	# Rotation
 	if direction.length() > 0.01:
 		var target_rotation = atan2(direction.x, direction.z) + PI
 		guard.rotation.y = lerp_angle(guard.rotation.y, target_rotation, 5 * delta)
 
-	guard.velocity = direction * speed
+	guard.velocity = direction * move_speed
 	guard.move_and_slide()

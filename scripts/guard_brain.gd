@@ -73,11 +73,13 @@ func _update_state():
 	# 3. NEW: SEARCH_LOST is sticky — don't let sensor logic overwrite it
 	#    until the destination is reached, the solver fails, or a loud noise interrupts.
 	if current_state == State.SEARCH_LOST:
-		# Loud noise can break the search
+		# Loud noise during SEARCH_LOST: stay in SEARCH_LOST but feed the noise
+		# position into the solver as a fresh seed. The noise tells us where
+		# the player likely is right now — that's better information than the
+		# old last-known-from-vision spot.
 		if noise_sensor.get_sound_strength() > search_noise_interrupt:
-			_reset_search()
-			current_state = State.INVESTIGATE
-			print("Investigate (interrupted search)")
+			print("SearchLost: noise heard, re-seeding search from sound position")
+			_reseed_search_from_noise(noise_sensor.get_last_sound_position())
 			return
 
 		var elapsed: float = (Time.get_ticks_msec() / 1000.0) - _search_started_at
@@ -170,6 +172,28 @@ func _start_search_lost() -> void:
 	var last_dir: Vector3 = _estimate_player_direction()
 	print("Solver: starting (seed=", last_pos, ", dir=", last_dir, ")")
 	chase_solver.solve(last_pos, last_dir)
+
+
+# Re-seed the search from a noise position. Resets the commitment timer so
+# the guard searches the new area for the full min_search_duration.
+func _reseed_search_from_noise(noise_pos: Vector3) -> void:
+	if _solver_pending or chase_solver.is_solving():
+		return
+	if not chase_solver.navigation_map.is_valid():
+		chase_solver.navigation_map = nav_agent.get_navigation_map()
+
+	# Direction = where the player apparently moved (old last-known → noise).
+	var dir: Vector3 = noise_pos - vision_sensor.get_last_known_position()
+	dir.y = 0.0
+	if dir.length_squared() < 0.0001:
+		dir = -global_transform.basis.z
+
+	_solver_pending = true
+	_has_search_destination = false
+	_search_started_at = Time.get_ticks_msec() / 1000.0  # fresh commitment
+
+	print("Solver: re-seeded from noise (seed=", noise_pos, ", dir=", dir.normalized(), ")")
+	chase_solver.solve(noise_pos, dir.normalized())
 
 
 # Re-flood from the position the guard just reached. Keeps _search_started_at
