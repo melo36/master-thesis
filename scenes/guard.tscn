@@ -64,6 +64,7 @@ view_distance = 30.0
 view_angle_deg = 90.0
 memory_duration = 50.0
 detection_speed = 1.0
+show_debug_cone = false
 
 [node name="GuardMovement" type="Node3D" parent="." unique_id=1159603037]
 script = ExtResource("6_5dfqo")
