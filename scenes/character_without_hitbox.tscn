@@ -196,14 +196,6 @@ states/Sprint/position = Vector2(431, 100.65625)
 states/Start/position = Vector2(200.5, 100.4375)
 transitions = ["Start", "Sprint", SubResource("AnimationNodeStateMachineTransition_pjq3a")]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_aginp"]
-animation = &"Custom/throw"
-use_custom_timeline = true
-timeline_length = 1.0
-stretch_time_scale = true
-start_offset = 0.0
-loop_mode = 0
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hyaxk"]
 animation = &"Custom/left_strafe_walking"
 
@@ -263,7 +255,7 @@ states/walking/position = Vector2(166.47656, 225.92188)
 states/walking_backwards/node = SubResource("AnimationNodeAnimation_wb7fw")
 states/walking_backwards/position = Vector2(166.3789, 355.5)
 transitions = ["Start", "walking", SubResource("AnimationNodeStateMachineTransition_2jwc5"), "walking", "right_strafe_walking", SubResource("AnimationNodeStateMachineTransition_6555i"), "walking", "left_strafe_walking", SubResource("AnimationNodeStateMachineTransition_x1mcr"), "walking", "walking_backwards", SubResource("AnimationNodeStateMachineTransition_q503i"), "right_strafe_walking", "walking", SubResource("AnimationNodeStateMachineTransition_v0qw6"), "left_strafe_walking", "walking", SubResource("AnimationNodeStateMachineTransition_sgepu"), "walking_backwards", "walking", SubResource("AnimationNodeStateMachineTransition_aginp")]
-graph_offset = Vector2(-61.830063, 173.53494)
+graph_offset = Vector2(75.44999, 3.772451)
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rd2ci"]
 advance_mode = 2
@@ -330,11 +322,6 @@ xfade_time = 0.2
 advance_mode = 2
 advance_condition = &"falling"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_n3iwf"]
-xfade_time = 0.2
-switch_mode = 2
-advance_mode = 2
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_m4v7x"]
 xfade_time = 0.2
 advance_mode = 2
@@ -399,49 +386,24 @@ states/Jump/position = Vector2(242.46002, 181.2025)
 states/Sprinting/node = SubResource("AnimationNodeStateMachine_lwyly")
 states/Sprinting/position = Vector2(740.5498, 27.125)
 states/Start/position = Vector2(61.5, 27.625)
-states/Throw/node = SubResource("AnimationNodeAnimation_aginp")
-states/Throw/position = Vector2(240.22499, -92.31746)
 states/Walking/node = SubResource("AnimationNodeStateMachine_h3b6s")
 states/Walking/position = Vector2(489.53534, 26.75)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_rd2ci"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_ayuge"), "Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_o8bff"), "Walking", "Crouching", SubResource("AnimationNodeStateMachineTransition_pgysb"), "Idle", "Crouching", SubResource("AnimationNodeStateMachineTransition_h3b6s"), "Crouching", "Walking", SubResource("AnimationNodeStateMachineTransition_iu26k"), "Crouching", "Idle", SubResource("AnimationNodeStateMachineTransition_pe8is"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_hyaxk"), "Jump", "Idle", SubResource("AnimationNodeStateMachineTransition_joq1o"), "Walking", "Jump", SubResource("AnimationNodeStateMachineTransition_wb7fw"), "Jump", "Walking", SubResource("AnimationNodeStateMachineTransition_klptk"), "Jump", "Crouching", SubResource("AnimationNodeStateMachineTransition_cr4th"), "Crouching", "Jump", SubResource("AnimationNodeStateMachineTransition_qil8a"), "Throw", "Idle", SubResource("AnimationNodeStateMachineTransition_n3iwf"), "Walking", "Sprinting", SubResource("AnimationNodeStateMachineTransition_m4v7x"), "Sprinting", "Walking", SubResource("AnimationNodeStateMachineTransition_63via"), "Crouching", "Sprinting", SubResource("AnimationNodeStateMachineTransition_pt8r8"), "Sprinting", "Crouching", SubResource("AnimationNodeStateMachineTransition_p4453"), "Crouching", "Crawling", SubResource("AnimationNodeStateMachineTransition_sj6nh"), "Crawling", "Crouching", SubResource("AnimationNodeStateMachineTransition_lwyly"), "Crouching", "Crawl_Idle", SubResource("AnimationNodeStateMachineTransition_udnd2"), "Crawl_Idle", "Crouching", SubResource("AnimationNodeStateMachineTransition_ljj6e"), "Crawl_Idle", "Crawling", SubResource("AnimationNodeStateMachineTransition_eww57"), "Crawling", "Crawl_Idle", SubResource("AnimationNodeStateMachineTransition_gqmek")]
-graph_offset = Vector2(-186.45023, -58.699795)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_rd2ci"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_ayuge"), "Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_o8bff"), "Walking", "Crouching", SubResource("AnimationNodeStateMachineTransition_pgysb"), "Idle", "Crouching", SubResource("AnimationNodeStateMachineTransition_h3b6s"), "Crouching", "Walking", SubResource("AnimationNodeStateMachineTransition_iu26k"), "Crouching", "Idle", SubResource("AnimationNodeStateMachineTransition_pe8is"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_hyaxk"), "Jump", "Idle", SubResource("AnimationNodeStateMachineTransition_joq1o"), "Walking", "Jump", SubResource("AnimationNodeStateMachineTransition_wb7fw"), "Jump", "Walking", SubResource("AnimationNodeStateMachineTransition_klptk"), "Jump", "Crouching", SubResource("AnimationNodeStateMachineTransition_cr4th"), "Crouching", "Jump", SubResource("AnimationNodeStateMachineTransition_qil8a"), "Walking", "Sprinting", SubResource("AnimationNodeStateMachineTransition_m4v7x"), "Sprinting", "Walking", SubResource("AnimationNodeStateMachineTransition_63via"), "Crouching", "Sprinting", SubResource("AnimationNodeStateMachineTransition_pt8r8"), "Sprinting", "Crouching", SubResource("AnimationNodeStateMachineTransition_p4453"), "Crouching", "Crawling", SubResource("AnimationNodeStateMachineTransition_sj6nh"), "Crawling", "Crouching", SubResource("AnimationNodeStateMachineTransition_lwyly"), "Crouching", "Crawl_Idle", SubResource("AnimationNodeStateMachineTransition_udnd2"), "Crawl_Idle", "Crouching", SubResource("AnimationNodeStateMachineTransition_ljj6e"), "Crawl_Idle", "Crawling", SubResource("AnimationNodeStateMachineTransition_eww57"), "Crawling", "Crawl_Idle", SubResource("AnimationNodeStateMachineTransition_gqmek")]
+graph_offset = Vector2(-144.2104, -126.14774)
 
 [node name="hamster_character" unique_id=324042045 instance=ExtResource("1_d0cny")]
 
 [node name="Light" parent="." index="1" unique_id=1213300348]
+visible = false
 light_energy = 3.122
 
 [node name="Skeleton3D" parent="." index="2" unique_id=1560551287]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-bones/0/position = Vector3(0.098451585, 0.12814516, -0.020335853)
-bones/0/rotation = Quaternion(0.19804025, -0.34223825, -0.011737197, 0.9184309)
-bones/1/rotation = Quaternion(0.057821754, -0.023398139, -0.0051050177, 0.9980397)
-bones/2/rotation = Quaternion(0.17789878, -0.010170862, -0.0145522, 0.9838886)
-bones/3/rotation = Quaternion(0.17787756, -0.010329618, -0.014720809, 0.9838884)
-bones/4/rotation = Quaternion(0.03495165, 0.03389189, 0.031043021, 0.9983317)
-bones/5/rotation = Quaternion(-0.31383595, 0.21240772, -0.13193086, 0.9159608)
-bones/7/rotation = Quaternion(-0.54145914, -0.45945126, 0.54138744, -0.45014042)
-bones/8/rotation = Quaternion(0.0013281554, 0.42993218, 0.26323158, 0.86363524)
-bones/9/rotation = Quaternion(0.39987683, -0.64907575, 0.48780876, -0.42525497)
-bones/10/rotation = Quaternion(0.1005593, -0.05660702, 0.0034855157, 0.9933134)
-bones/11/rotation = Quaternion(-0.04246217, -0.7861337, 0.036234718, 0.61553055)
-bones/12/rotation = Quaternion(0.537449, 0.030079095, -0.024557253, 0.8424018)
-bones/13/rotation = Quaternion(-0.30659276, 0.02416436, 0.071165904, 0.9488691)
-bones/15/rotation = Quaternion(0.5516896, -0.43813822, 0.5797166, 0.4093924)
-bones/16/rotation = Quaternion(0.37217748, 0.07104564, -0.15613315, 0.9121727)
-bones/17/rotation = Quaternion(0.041632205, -0.008675765, -0.5052386, 0.86193126)
-bones/18/rotation = Quaternion(0.016708115, 0.5401433, -0.019258153, 0.8411869)
-bones/19/rotation = Quaternion(-0.06080894, 0.9960401, 0.02162689, -0.06114561)
-bones/20/rotation = Quaternion(0.37083519, -0.022663547, 0.02143314, 0.9281747)
-bones/21/rotation = Quaternion(-0.114782035, -0.07187288, -0.09877929, 0.98585093)
-bones/23/rotation = Quaternion(-0.28612924, -0.3498877, 0.6217739, 0.63961387)
-bones/24/rotation = Quaternion(-0.17425746, 0.52348673, -0.15156141, 0.8201373)
-bones/25/rotation = Quaternion(0.77436244, 0.06378787, 0.6262245, -0.06431692)
-bones/26/rotation = Quaternion(0.25033844, 0.46358696, -0.15915503, 0.8349177)
-bones/28/rotation = Quaternion(0.2792841, 0.49712497, 0.6459894, -0.5075084)
-bones/29/rotation = Quaternion(0.03476706, -0.28858995, 0.9184381, 0.2682883)
-bones/30/rotation = Quaternion(-0.20419192, 0.83489287, 0.32641104, 0.39333892)
-bones/31/rotation = Quaternion(0.2189852, -0.62746525, 0.18990338, 0.7226822)
+bones/3/rotation = Quaternion(1.3877788e-17, 0, 0, 1)
+bones/12/rotation = Quaternion(-6.451003e-18, 1.3877788e-17, -2.3852448e-18, 1)
+bones/13/rotation = Quaternion(-1.3986208e-17, 1.3877788e-17, -2.6020852e-18, 1)
+bones/20/rotation = Quaternion(-5.551115e-17, 3.469447e-18, -5.2041704e-18, 1)
+bones/21/rotation = Quaternion(1.3877788e-17, -7.70372e-34, -3.469447e-18, 1)
 
 [node name="AnimationPlayer" parent="." index="3" unique_id=1415520409]
 libraries/Custom = SubResource("AnimationLibrary_fnxfk")
