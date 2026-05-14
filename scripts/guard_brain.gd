@@ -58,7 +58,7 @@ func _update_state():
 		if current_state == State.SEARCH_LOST:
 			_reset_search()
 		current_state = State.CHASE
-		print("Chase")
+		#print("Chase")
 		return
 
 	# 2. NEW: just lost sight after being in CHASE — start the influence-map flood.
@@ -67,7 +67,7 @@ func _update_state():
 	if current_state == State.CHASE:
 		current_state = State.SEARCH_LOST
 		_start_search_lost()
-		print("SearchLost (computing)")
+		#print("SearchLost (computing)")
 		return
 
 	# 3. NEW: SEARCH_LOST is sticky — don't let sensor logic overwrite it
@@ -78,7 +78,7 @@ func _update_state():
 		# the player likely is right now — that's better information than the
 		# old last-known-from-vision spot.
 		if noise_sensor.get_sound_strength() > search_noise_interrupt:
-			print("SearchLost: noise heard, re-seeding search from sound position")
+			#print("SearchLost: noise heard, re-seeding search from sound position")
 			_reseed_search_from_noise(noise_sensor.get_last_sound_position())
 			return
 
@@ -91,10 +91,10 @@ func _update_state():
 		if _has_search_destination and not _solver_pending \
 				and global_position.distance_to(_search_destination) < search_arrival_tolerance:
 			if elapsed < min_search_duration:
-				print("SearchLost: arrived during commitment (t=%.2f), re-flooding" % elapsed)
+				#print("SearchLost: arrived during commitment (t=%.2f), re-flooding" % elapsed)
 				_continue_search_lost_from(_search_destination)
 				return
-			print("SearchLost: arrived at destination, falling back")
+			#print("SearchLost: arrived at destination, falling back")
 			_reset_search()
 			if noise_sensor.get_sound_strength() > 0.2:
 				current_state = State.INVESTIGATE
@@ -105,12 +105,12 @@ func _update_state():
 		# No destination yet — stay committed until the solver delivers one or
 		# the commitment window expires.
 		if elapsed < min_search_duration:
-			print("SearchLost (committed, t=%.2f)" % elapsed)
+			#print("SearchLost (committed, t=%.2f)" % elapsed)
 			return
 
 		# Past commitment with no destination = solver gave up; fall back.
 		if not _has_search_destination:
-			print("SearchLost: no destination after min duration, falling back")
+			#print("SearchLost: no destination after min duration, falling back")
 			_reset_search()
 			if noise_sensor.get_sound_strength() > 0.2:
 				current_state = State.INVESTIGATE
@@ -119,17 +119,17 @@ func _update_state():
 			return
 
 		# Heading to destination; keep going.
-		print("SearchLost (running, dist=%.2f)" % global_position.distance_to(_search_destination))
+		#print("SearchLost (running, dist=%.2f)" % global_position.distance_to(_search_destination))
 		return
 
 	# 4. Sound if no vision (PRESERVED — original behavior)
 	if noise_sensor.get_sound_strength() > 0.2:
 		current_state = State.INVESTIGATE
-		print("Investigate")
+		#print("Investigate")
 		return
 
 	# 5. Default (PRESERVED — original behavior)
-	print("Patrol")
+	#print("Patrol")
 	current_state = State.PATROL
 
 

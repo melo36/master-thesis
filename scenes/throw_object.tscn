@@ -1,14 +1,27 @@
 [gd_scene format=3 uid="uid://1vcvcluwg37m"]
 
+[ext_resource type="Script" uid="uid://dt34br1bx05rb" path="res://scenes/throw_object.gd" id="1_5v50f"]
+[ext_resource type="Script" uid="uid://dkb8ltjc6067n" path="res://addons/raytraced_audio/raytraced_audio_player_3d.gd" id="2_f4tu3"]
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_u4f6g"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_u4f6g"]
 
 [node name="Ball" type="RigidBody3D" unique_id=1285734974]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+collision_layer = 8
+collision_mask = 8
+contact_monitor = true
+max_contacts_reported = 10
+script = ExtResource("1_5v50f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=310264405]
 shape = SubResource("SphereShape3D_u4f6g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1969695162]
 mesh = SubResource("SphereMesh_u4f6g")
+
+[node name="RaytracedAudioPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1152859226]
+script = ExtResource("2_f4tu3")
+audibility_threshold_db = -10.0
+metadata/_custom_type_script = "uid://dkb8ltjc6067n"

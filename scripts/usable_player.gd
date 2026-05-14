@@ -151,7 +151,7 @@ func update_trajectory_preview():
 	var points = []
 	var start_pos = global_position + Vector3.UP * 1.5
 	var current_velocity = get_throw_velocity()
-	var current_pos = start_pos
+	var current_pos = start_pos + Vector3(10,0,10)
 	
 	var step_delta = 0.05 
 	for i in range(40):
