@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://b7v3ess51jqqd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o766d"]
+emission_enabled = true
+emission = Color(2.6809974, 1.4688206, 0, 1)
+
+[node name="Light_Post" type="Node3D" unique_id=1905649596]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="." unique_id=2097410306]
+radius = 0.25
+height = 8.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=231012709]
+transform = Transform3D(2.5266032, 0, 0, 0, 1, 0, 0, 0, 1, 0.8575108, 3.9829082, 0)
+size = Vector3(1, 0.2, 0.8)
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="." unique_id=742103729]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 1.2531291, 3.7403903, 0)
+radius = 0.25
+height = 1.5
+material = SubResource("StandardMaterial3D_o766d")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=742355330]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1817324, 3.1554995, 0)
+light_color = Color(2.6809974, 1.4688206, 0, 1)
+light_energy = 2.0
+light_indirect_energy = 0.5
+omni_range = 20.0
+omni_attenuation = 2.0
