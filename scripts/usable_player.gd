@@ -140,6 +140,7 @@ func _physics_process(delta):
 		animationTree.set("parameters/playback_speed", 1.0)
 	
 	if direction != Vector3.ZERO: emit_footsteps()
+	update_noise()
 	move_and_slide()
 
 # ==================================================
@@ -243,5 +244,6 @@ func emit_footsteps():
 	if not audioPlayer.is_playing() and is_on_floor():
 		audioPlayer.play()
 		for g in guards:
+			print("Sound ", audioPlayer.get_volume_db_from_pos(g.global_position))
 			if audioPlayer.get_volume_db_from_pos(g.global_position) > footstep_threshold:
 				g.investigate_sound(global_position)

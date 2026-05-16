@@ -15,6 +15,11 @@ func _process(delta):
 
 
 func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if event is InputEventMouseMotion:
 		var tempRot = rotation.x - event.relative.y / 1000 * sensitivity
 		rotation.y -= event.relative.x / 1000 * sensitivity
