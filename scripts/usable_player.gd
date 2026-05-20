@@ -27,6 +27,8 @@ var crouch_press_time := 0.0
 @export var crouch_speed = 2.5
 @export var crawl_speed = 1.2
 
+@onready var floor_detector: RayCast3D = $FloorDetector
+
 # =========================
 # VISIBILITY
 # =========================
@@ -158,8 +160,7 @@ func _physics_process(delta):
 	
 	if direction != Vector3.ZERO: emit_footsteps()
 	visibility = calculate_total_visibility()
-	# Optional: Print to see it in action
-	print("Visibility: ", snapped(visibility, 0.01))
+
 	update_noise()
 	move_and_slide()
 	
@@ -247,10 +248,24 @@ func get_speed() -> float:
 	return walk_speed
 
 func update_noise():
+	var modifier = 1
+	if floor_detector.is_colliding():
+		var collider = floor_detector.get_collider()
+		
+		# Check if the collider has our surface metadata attached
+		if collider.has_meta("surface_data"):
+			var surface: SurfaceProperties = collider.get_meta("surface_data")
+			if surface:
+				modifier = surface.sound_modifier
+				
+	print("Modifier, ", modifier)
+	var volume
 	match stance:
-		Stance.STAND: audioPlayer.set_volume_db(sprinting_noise if sprinting else walking_noise)
-		Stance.CROUCH: audioPlayer.set_volume_db(crouched_noise)
-		Stance.CRAWL: audioPlayer.set_volume_db(crawling_noise)
+		Stance.STAND: volume = sprinting_noise if sprinting else walking_noise
+		Stance.CROUCH: volume = crouched_noise
+		Stance.CRAWL: volume = crawling_noise
+	volume *= modifier
+	audioPlayer.set_volume_db(volume)
 
 func handle_rotation():
 	var target = Vector3(lookat.global_position.x, global_position.y, lookat.global_position.z)

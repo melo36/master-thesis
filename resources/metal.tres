@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SurfaceProperties" format=3 uid="uid://clpd0nsohhqdc"]
+
+[ext_resource type="Script" uid="uid://48gxj4u6dejx" path="res://scripts/surface_properties.gd" id="1_n20x6"]
+
+[resource]
+script = ExtResource("1_n20x6")
+material_name = "Metal"
+sound_modifier = 1.5
+metadata/_custom_type_script = "uid://48gxj4u6dejx"
