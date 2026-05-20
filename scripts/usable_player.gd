@@ -27,6 +27,15 @@ var crouch_press_time := 0.0
 @export var crouch_speed = 2.5
 @export var crawl_speed = 1.2
 
+# =========================
+# VISIBILITY
+# =========================
+
+@onready var sun_light: DirectionalLight3D = $"../SunLight"
+@export var base_ambient_light: float = 0.05 # The minimum brightness in total shadow
+var light_posts : Array[OmniLight3D] = []
+var visibility := 1.0
+
 const JUMP_VELOCITY = 4.5
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -44,6 +53,7 @@ var animationTree
 var audioPlayer
 var guards = []
 var state_machine
+
 
 # =========================
 # THROW OBJECT / PREVIEW
@@ -76,6 +86,13 @@ func _ready():
 		# Ensure the mesh is initialized
 		if trajectory_line.mesh == null:
 			trajectory_line.mesh = ImmediateMesh.new()
+			
+func register_local_light(light: Light3D):
+	print("Append light")
+	light_posts.append(light)
+
+func unregister_local_light(light: Light3D):
+	light_posts.erase(light)
 
 # ==================================================
 # INPUT
@@ -140,8 +157,45 @@ func _physics_process(delta):
 		animationTree.set("parameters/playback_speed", 1.0)
 	
 	if direction != Vector3.ZERO: emit_footsteps()
+	visibility = calculate_total_visibility()
+	# Optional: Print to see it in action
+	print("Visibility: ", snapped(visibility, 0.01))
 	update_noise()
 	move_and_slide()
+	
+	
+func calculate_total_visibility() -> float:
+	var total_light = base_ambient_light
+	var space_state = get_world_3d().direct_space_state
+	var ray_origin = global_position + Vector3(0, 1.0, 0) # Adjust based on stance height!
+
+	# --- PROCESS 1: THE SUN ---
+	if sun_light:
+		var sun_dir = sun_light.global_basis.z.normalized()
+		var sun_query = PhysicsRayQueryParameters3D.create(ray_origin, ray_origin + (sun_dir * 500.0))
+		sun_query.exclude = [self.get_rid()]
+		
+		var sun_hit = space_state.intersect_ray(sun_query)
+		if !sun_hit:
+			# No obstacle between player and sun
+			total_light += 1.0 
+
+	# --- PROCESS 2: LOCAL LIGHT POSTS ---
+	for light in light_posts:
+		var light_query = PhysicsRayQueryParameters3D.create(ray_origin, light.global_position)
+		light_query.exclude = [self.get_rid()]
+		
+		var light_hit = space_state.intersect_ray(light_query)
+		if !light_hit:
+			# Clear line of sight to the lamp post! Calculate intensity by distance
+			var dist = ray_origin.distance_to(light.global_position)
+			var max_range = light.get_light_range()
+			
+			var local_intensity = 1.0 - (dist / max_range)
+			total_light += clamp(local_intensity, 0.0, 1.0)
+
+	# Keep the final value within a clean 0.0 - 1.0 UI/AI friendly range
+	return clamp(total_light, 0.0, 1.0)
 
 # ==================================================
 # TRAJECTORY PREVIEW (FIXED ORIGIN)
@@ -244,6 +298,9 @@ func emit_footsteps():
 	if not audioPlayer.is_playing() and is_on_floor():
 		audioPlayer.play()
 		for g in guards:
-			print("Sound ", audioPlayer.get_volume_db_from_pos(g.global_position))
 			if audioPlayer.get_volume_db_from_pos(g.global_position) > footstep_threshold:
 				g.investigate_sound(global_position)
+				
+				
+func get_visibility():
+	return visibility

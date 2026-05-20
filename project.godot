@@ -28,6 +28,7 @@ enabled=PackedStringArray("res://addons/raytraced_audio/plugin.cfg")
 Player=""
 CameraController=""
 Guard=""
+Light=""
 
 [input]
 

@@ -37,19 +37,19 @@ agent_radius = 2.0
 
 [node name="Light Posts" type="Node" parent="." unique_id=1144735951]
 
-[node name="Light_Post" parent="Light Posts" unique_id=1905649596 instance=ExtResource("6_rt2n2")]
+[node name="Light_Post" parent="Light Posts" unique_id=1905649596 groups=["Light"] instance=ExtResource("6_rt2n2")]
 transform = Transform3D(0.059916187, 0, 0.9982034, 0, 1, 0, -0.9982034, 0, 0.059916187, 17.408741, 3.86024, -19.82243)
 
-[node name="Light_Post3" parent="Light Posts" unique_id=853219415 instance=ExtResource("6_rt2n2")]
+[node name="Light_Post3" parent="Light Posts" unique_id=853219415 groups=["Light"] instance=ExtResource("6_rt2n2")]
 transform = Transform3D(0.059916187, 0, 0.9982034, 0, 1, 0, -0.9982034, 0, 0.059916187, 1.0797269, 3.86024, -17.814793)
 
-[node name="Light_Post4" parent="Light Posts" unique_id=85445651 instance=ExtResource("6_rt2n2")]
+[node name="Light_Post4" parent="Light Posts" unique_id=85445651 groups=["Light"] instance=ExtResource("6_rt2n2")]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, -14.484463, 3.86024, -16.188927)
 
-[node name="Light_Post5" parent="Light Posts" unique_id=1480966134 instance=ExtResource("6_rt2n2")]
+[node name="Light_Post5" parent="Light Posts" unique_id=1480966134 groups=["Light"] instance=ExtResource("6_rt2n2")]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, -14.73505, 3.86024, 12.811073)
 
-[node name="Light_Post2" parent="Light Posts" unique_id=1732424896 instance=ExtResource("6_rt2n2")]
+[node name="Light_Post2" parent="Light Posts" unique_id=1732424896 groups=["Light"] instance=ExtResource("6_rt2n2")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 13.998335, 3, 5.0372925)
 
 [node name="Player" parent="." unique_id=527582928 groups=["Player"] instance=ExtResource("1_pw63i")]
@@ -198,9 +198,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.954969, 0, 4.8451586)
 
 [node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=1386001287]
 transform = Transform3D(0.2863577, 0.94677246, -0.14704148, -0.8458201, 0.32189348, 0.42540917, 0.45009738, 0.0025514483, 0.89297587, 6.2967606, 48.84115, 35.37471)
+visible = false
 shadow_enabled = true
 
-[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="." unique_id=119315548]
+[node name="SunLight" type="DirectionalLight3D" parent="." unique_id=119315548]
 transform = Transform3D(0.28635767, 0.94677246, -0.1470414, 0.08712649, 0.12710106, 0.98805577, 0.9541531, -0.2957486, -0.04609257, 6.2967606, 14.676441, -28.203415)
 light_color = Color(0.98890656, 0.7759308, 0.75068456, 1)
 light_energy = 0.2
