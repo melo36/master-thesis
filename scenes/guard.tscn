@@ -6,20 +6,14 @@
 [ext_resource type="Script" uid="uid://bpajbi2wk1nxv" path="res://scripts/guard_vision_behavior.gd" id="5_gn8tx"]
 [ext_resource type="Script" uid="uid://4dkpyhsv7o23" path="res://scripts/guard_movement.gd" id="6_5dfqo"]
 [ext_resource type="Script" uid="uid://bw366snicme0g" path="res://scripts/chase_influence_map.gd" id="7_chasemap"]
+[ext_resource type="PackedScene" uid="uid://d3elvbasyc0b" path="res://guard_model.tscn" id="8_c4sgu"]
 [ext_resource type="Script" uid="uid://b1qirgxs5mc4t" path="res://scripts/guard_state_indicator.gd" id="8_indicator"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_2hhgp"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2hhgp"]
-albedo_color = Color(0.5500251, 0, 0.08619741, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m4fl1"]
 
 [sub_resource type="GDScript" id="GDScript_ci2qi"]
 script/source = "extends NavigationAgent3D
 "
-
-[sub_resource type="BoxMesh" id="BoxMesh_k0dx2"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gn8tx"]
 
@@ -32,10 +26,8 @@ script = ExtResource("1_k0dx2")
 search_noise_interrupt = 0.8
 min_search_duration = 20.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=621701328]
-transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("BoxMesh_2hhgp")
-surface_material_override/0 = SubResource("StandardMaterial3D_2hhgp")
+[node name="model" parent="." unique_id=904658031 instance=ExtResource("8_c4sgu")]
+transform = Transform3D(-1.5, 0, -1.3113416e-07, 0, 1.5, 0, 1.3113416e-07, 0, -1.5, 0, -1.0735747, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=937642194]
 transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
@@ -48,10 +40,6 @@ metadata/_custom_type_script = "uid://bjpmu5sklv5h8"
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=823578958]
 debug_enabled = true
 script = SubResource("GDScript_ci2qi")
-
-[node name="Face" type="MeshInstance3D" parent="." unique_id=1261942612]
-transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -0.002, 0.5, -0.2)
-mesh = SubResource("BoxMesh_k0dx2")
 
 [node name="NoiseSensor" type="Node3D" parent="." unique_id=115091329]
 script = ExtResource("1_ci2qi")

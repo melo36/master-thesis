@@ -6,6 +6,8 @@ extends CharacterBody3D
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var chase_solver: ChaseInfluenceMap = $ChaseInfluenceMap
 
+var animationTree
+
 enum State {
 	PATROL,
 	INVESTIGATE,
@@ -42,11 +44,13 @@ func _ready() -> void:
 	chase_solver.navigation_map = nav_agent.get_navigation_map()
 	chase_solver.chase_destination_ready.connect(_on_search_destination_ready)
 	chase_solver.chase_failed.connect(_on_search_failed)
+	animationTree = $model/AnimationTree
 
 
 func _physics_process(delta):
 	_update_state()
 	_execute_state()
+	handle_animation()
 
 
 func _update_state():
@@ -131,6 +135,7 @@ func _update_state():
 	# 5. Default (PRESERVED — original behavior)
 	#print("Patrol")
 	current_state = State.PATROL
+	
 
 
 func _execute_state():
@@ -247,6 +252,13 @@ func _on_search_failed() -> void:
 	# Don't force-change current_state here — the sticky check in _update_state
 	# enforces min_search_duration first, then falls back. Otherwise we'd skip
 	# the search visual entirely whenever the solver fails.
+	
+func handle_animation():
+	animationTree.set("parameters/conditions/dead", false)
+	animationTree.set("parameters/conditions/shooting", false)
+	animationTree.set("parameters/conditions/alerted", current_state == State.INVESTIGATE || current_state == State.SEARCH_LOST)
+	animationTree.set("parameters/conditions/chasing", current_state == State.CHASE)
+	animationTree.set("parameters/conditions/walking", current_state == State.PATROL)
 
 
 # =====================================================================
