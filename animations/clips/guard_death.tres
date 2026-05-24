@@ -1,9 +1,8 @@
-[gd_resource type="Animation" format=3 uid="uid://bogpnsex8fcrc"]
+[gd_resource type="Animation" format=3 uid="uid://dus7ggng77tdp"]
 
 [resource]
 resource_name = "mixamo_com"
 length = 3.7
-loop_mode = 1
 tracks/0/type = "position_3d"
 tracks/0/imported = true
 tracks/0/enabled = true

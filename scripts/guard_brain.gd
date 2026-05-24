@@ -5,8 +5,13 @@ extends CharacterBody3D
 @onready var guard_movement: Node3D = $GuardMovement
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var chase_solver: ChaseInfluenceMap = $ChaseInfluenceMap
+@onready var state_indicator: Label3D = $StateIndicator
+@onready var vision_cone: MeshInstance3D = $VisionCone
 
 var animationTree
+var state_machine
+
+var dead: bool = false
 
 enum State {
 	PATROL,
@@ -45,9 +50,12 @@ func _ready() -> void:
 	chase_solver.chase_destination_ready.connect(_on_search_destination_ready)
 	chase_solver.chase_failed.connect(_on_search_failed)
 	animationTree = $model/AnimationTree
+	state_machine = animationTree.get("parameters/playback")
 
 
 func _physics_process(delta):
+	if dead:
+		return
 	_update_state()
 	_execute_state()
 	handle_animation()
@@ -259,6 +267,13 @@ func handle_animation():
 	animationTree.set("parameters/conditions/alerted", current_state == State.INVESTIGATE || current_state == State.SEARCH_LOST)
 	animationTree.set("parameters/conditions/chasing", current_state == State.CHASE)
 	animationTree.set("parameters/conditions/walking", current_state == State.PATROL)
+	
+func die():
+	state_indicator.visible = false
+	vision_cone.visible = false
+	dead = true
+	guard_movement.set_state(guard_movement.State.DEAD)
+	state_machine.travel("Death")
 
 
 # =====================================================================

@@ -90,7 +90,6 @@ func _ready():
 			trajectory_line.mesh = ImmediateMesh.new()
 			
 func register_local_light(light: Light3D):
-	print("Append light")
 	light_posts.append(light)
 
 func unregister_local_light(light: Light3D):
@@ -112,6 +111,24 @@ func _input(event):
 		elif stance == Stance.CRAWL: stance = Stance.CROUCH
 		crouch_pressed = false
 		
+	if event.is_action_pressed("punch"):
+		state_machine.travel("hurricane")
+		var space_state = get_world_3d().direct_space_state
+	
+		var ray_origin = global_transform.origin
+		var ray_direction = -global_transform.basis.z
+		
+		var ray_length = 5
+		var ray_end = ray_origin + ray_direction * ray_length
+		
+		var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+		query.exclude = [self]
+		
+		var result = space_state.intersect_ray(query)
+	
+		if result:
+			print("Hit: ", result.collider.name)
+			result.collider.die()
 	if event.is_action_pressed("shoot"):
 		is_aiming = true
 		throw_cancelled = false
@@ -257,8 +274,6 @@ func update_noise():
 			var surface: SurfaceProperties = collider.get_meta("surface_data")
 			if surface:
 				modifier = surface.sound_modifier
-				
-	print("Modifier, ", modifier)
 	var volume
 	match stance:
 		Stance.STAND: volume = sprinting_noise if sprinting else walking_noise

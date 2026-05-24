@@ -17,7 +17,8 @@ enum State {
 	PATROL,
 	INVESTIGATE,
 	CHASE,
-	DEFAULT
+	DEFAULT,
+	DEAD
 }
 
 var state: State = State.PATROL
@@ -25,9 +26,11 @@ var target_position: Vector3
 var has_target := false
 
 func set_state(new_state: State, target: Vector3 = Vector3.ZERO):
+	if new_state == State.DEAD:
+		state = State.DEAD
+		return
+	
 	if state != new_state:
-		if current_target:
-			pass
 		state = State.DEFAULT
 		guard.velocity = Vector3(0,0,0)
 		await get_tree().create_timer(1.0).timeout
@@ -76,6 +79,10 @@ func _physics_process(delta: float) -> void:
 		if direction.length() > 0.01:
 			var target_rotation = atan2(direction.x, direction.z) + PI
 			guard.rotation.y = lerp_angle(guard.rotation.y, target_rotation, 5 * delta)
+	
+	elif state == State.DEAD:
+		navigation_agent_3d.set_target_position(global_position)
+		guard.velocity = Vector3.ZERO
 	
 func get_next_patrol_point() -> Vector3:
 	var point = patrol_points[current_index].global_position
