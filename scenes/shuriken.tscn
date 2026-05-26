@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://0htl16vomsjm"]
+
+[ext_resource type="PackedScene" uid="uid://dpcmtmro2aubv" path="res://models/Shuriken.fbx" id="1_7ccba"]
+
+[node name="Shuriken" unique_id=737973859 instance=ExtResource("1_7ccba")]

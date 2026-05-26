@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bfrm3aatmut62"]
+
+[ext_resource type="Shader" uid="uid://bfy5lpr0dbq7m" path="res://resources/health_bar.gdshader" id="1_ahmsc"]
+
+[resource]
+shader = ExtResource("1_ahmsc")
+shader_parameter/my_color = Color(0.16532356, 0.46144354, 0.17226562, 1)

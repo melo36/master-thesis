@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://1vcvcluwg37m"]
 
-[ext_resource type="Script" uid="uid://dt34br1bx05rb" path="res://scenes/throw_object.gd" id="1_5v50f"]
+[ext_resource type="Script" uid="uid://dt34br1bx05rb" path="res://scripts/throw_object.gd" id="1_5v50f"]
 [ext_resource type="Script" uid="uid://dkb8ltjc6067n" path="res://addons/raytraced_audio/raytraced_audio_player_3d.gd" id="2_f4tu3"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_u4f6g"]

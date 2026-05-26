@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b7v3ess51jqqd"]
 
-[ext_resource type="Script" uid="uid://82rl4k655v1g" path="res://scenes/omni_light_3d.gd" id="1_xiacm"]
+[ext_resource type="Script" uid="uid://82rl4k655v1g" path="res://scripts/omni_light_3d.gd" id="1_xiacm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o766d"]
 emission_enabled = true

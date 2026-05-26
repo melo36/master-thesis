@@ -126,8 +126,8 @@ func _input(event):
 		
 		var result = space_state.intersect_ray(query)
 	
-		if result:
-			print("Hit: ", result.collider.name)
+	
+		if result && "Guard" in result.collider.name:
 			result.collider.die()
 	if event.is_action_pressed("shoot"):
 		is_aiming = true
@@ -284,7 +284,7 @@ func update_noise():
 
 func handle_rotation():
 	var target = Vector3(lookat.global_position.x, global_position.y, lookat.global_position.z)
-	var lerped = lastLookAtDirection.lerp(target, 0.5)
+	var lerped = lastLookAtDirection.lerp(target, .25)
 	look_at(lerped)
 	lastLookAtDirection = lerped
 
