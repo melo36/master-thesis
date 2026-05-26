@@ -30,7 +30,7 @@ func _on_body_entered(body):
 		print("Hit guard")
 		if body.has_method("die"):
 			body.die() # Instant lethal kill call
-		queue_free()
+		visible = false
 	else:
 		# Hit environmental geometry, destroy or lodge into the wall
-		queue_free()
+		visible = false

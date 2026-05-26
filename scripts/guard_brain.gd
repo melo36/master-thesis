@@ -271,9 +271,9 @@ func handle_animation():
 func die():
 	state_indicator.visible = false
 	vision_cone.visible = false
-	dead = true
 	guard_movement.set_state(guard_movement.State.DEAD)
 	state_machine.travel("Death")
+	dead = true
 
 
 # =====================================================================
