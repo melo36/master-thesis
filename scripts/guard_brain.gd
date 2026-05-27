@@ -7,6 +7,7 @@ extends CharacterBody3D
 @onready var chase_solver: ChaseInfluenceMap = $ChaseInfluenceMap
 @onready var state_indicator: Label3D = $StateIndicator
 @onready var vision_cone: MeshInstance3D = $VisionCone
+@onready var shuriken_indicator: Sprite3D = $ShurikenIndicator
 
 var animationTree
 var state_machine
@@ -274,6 +275,10 @@ func die():
 	guard_movement.set_state(guard_movement.State.DEAD)
 	state_machine.travel("Death")
 	dead = true
+	set_targeted(false)
+	
+func set_targeted(targeted: bool):
+	shuriken_indicator.visible = targeted
 
 
 # =====================================================================

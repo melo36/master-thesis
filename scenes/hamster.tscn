@@ -7,6 +7,9 @@
 [ext_resource type="Material" uid="uid://bfrm3aatmut62" path="res://resources/health_bar.tres" id="5_eh6ys"]
 [ext_resource type="Script" uid="uid://cu3hxrght1n5" path="res://scripts/shuriken.gd" id="6_qopqs"]
 [ext_resource type="Script" uid="uid://bxjv0w2jkn1ph" path="res://scripts/throw_shuriken.gd" id="6_qvwhv"]
+[ext_resource type="Texture2D" uid="uid://dpsoct00lvvod" path="res://resources/blade.png" id="8_ls0pu"]
+[ext_resource type="Texture2D" uid="uid://cnyloppek8r84" path="res://resources/bell.png" id="8_qowr5"]
+[ext_resource type="Script" uid="uid://6cjxmevy1c0i" path="res://scripts/inventory.gd" id="10_p16ke"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_apgft"]
 
@@ -64,38 +67,43 @@ shadow_mesh = SubResource("ArrayMesh_m58vm")
 [sub_resource type="SphereShape3D" id="SphereShape3D_eh6ys"]
 radius = 10.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_qowr5"]
+font_size = 50
+font_color = Color(0, 0, 0, 1)
+outline_size = 5
+
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=527582928]
 
 [node name="hamster_character" parent="." unique_id=324042045 instance=ExtResource("1_ejryl")]
 
 [node name="Skeleton3D" parent="hamster_character" index="2" unique_id=1560551287]
-bones/0/position = Vector3(0.013899966, 0.20318264, -0.08266115)
-bones/0/rotation = Quaternion(0.021085396, 0.11746913, 0.015645342, 0.9927295)
-bones/1/rotation = Quaternion(-0.036778558, -0.07326725, -0.030038089, 0.99618125)
-bones/2/rotation = Quaternion(-0.0003429021, -0.010726612, 0.01102736, 0.9998816)
-bones/3/rotation = Quaternion(-0.00034290238, -0.010726613, 0.011027352, 0.9998816)
-bones/4/rotation = Quaternion(0.02209847, 0.00069503987, -0.009800404, 0.9997075)
-bones/5/rotation = Quaternion(0.024040561, -0.014578341, 0.016989022, 0.99946034)
-bones/7/rotation = Quaternion(-0.65755665, -0.3453317, 0.51334256, -0.42993575)
-bones/8/rotation = Quaternion(0.24942786, 0.60534275, 0.2576464, 0.7106085)
-bones/9/rotation = Quaternion(0.26105782, -0.86447984, 0.19172569, -0.38440168)
-bones/10/rotation = Quaternion(0.16043672, 0.11092989, -0.048697647, 0.9795832)
-bones/11/rotation = Quaternion(-0.31292966, -0.7361085, 0.16046046, 0.57833534)
-bones/12/rotation = Quaternion(0.32505155, 0.31859398, 0.4804295, 0.7496845)
-bones/15/rotation = Quaternion(0.63148147, -0.36416882, 0.56737155, 0.3830167)
-bones/16/rotation = Quaternion(0.39958367, 0.028236657, 0.25439003, 0.88023937)
-bones/17/rotation = Quaternion(0.081692904, -0.16670822, -0.21048702, 0.9598073)
-bones/18/rotation = Quaternion(-0.015036212, 0.32391575, -0.005682883, 0.94594944)
-bones/19/rotation = Quaternion(-0.29788044, 0.940465, 0.14259697, -0.080369)
-bones/20/rotation = Quaternion(0.107637085, -0.14443476, -0.38960382, 0.9031954)
-bones/23/rotation = Quaternion(0.111713946, -0.75121814, 0.54996973, -0.34745452)
-bones/24/rotation = Quaternion(-0.04577705, -0.9657212, 0.25058693, 0.04993259)
-bones/25/rotation = Quaternion(0.708305, -0.38571656, 0.58294225, -0.09851481)
-bones/26/rotation = Quaternion(0.240982, 0.4224952, -0.162287, 0.85853857)
-bones/28/rotation = Quaternion(-0.09287601, 0.49801475, 0.858475, 0.07984929)
-bones/29/rotation = Quaternion(-0.09174749, -0.21099256, 0.14830275, 0.96180606)
-bones/30/rotation = Quaternion(0.16859023, 0.8944266, -0.058196407, 0.41011173)
-bones/31/rotation = Quaternion(0.24035731, -0.606675, 0.2265223, 0.72309166)
+bones/0/position = Vector3(0.020885486, 0.19032145, -0.045334816)
+bones/0/rotation = Quaternion(0.008624302, 0.011996648, -0.016289705, 0.9997581)
+bones/1/rotation = Quaternion(-0.034206126, 0.007983447, 0.0044525615, 0.9993731)
+bones/2/rotation = Quaternion(0.0036376736, 0.010067724, 0.0028451395, 0.9999387)
+bones/3/rotation = Quaternion(0.0036376722, 0.010067738, 0.0028451376, 0.9999387)
+bones/4/rotation = Quaternion(0.039524857, -0.004806777, -0.0058946568, 0.99918973)
+bones/5/rotation = Quaternion(0.020708703, -0.026173733, 0.013778225, 0.9993479)
+bones/7/rotation = Quaternion(-0.6466881, -0.3590991, 0.52366024, -0.4226374)
+bones/8/rotation = Quaternion(0.3368851, 0.5878551, 0.22267829, 0.7009631)
+bones/9/rotation = Quaternion(0.22359437, -0.8810197, 0.14811139, -0.38970882)
+bones/10/rotation = Quaternion(0.12700248, 0.17827888, -0.06780621, 0.97339064)
+bones/11/rotation = Quaternion(-0.31818998, -0.7344582, 0.1674732, 0.57556844)
+bones/12/rotation = Quaternion(0.32139635, 0.3214335, 0.48566228, 0.7466707)
+bones/15/rotation = Quaternion(0.63235164, -0.36801946, 0.54743284, 0.4062148)
+bones/16/rotation = Quaternion(0.3940364, 0.11601325, 0.19356124, 0.8909604)
+bones/17/rotation = Quaternion(0.14642823, -0.11544057, -0.25456166, 0.94891024)
+bones/18/rotation = Quaternion(-0.03834076, 0.27059147, -0.025452163, 0.9615938)
+bones/19/rotation = Quaternion(-0.31444487, 0.93319106, 0.15405591, -0.080906235)
+bones/20/rotation = Quaternion(0.09495641, -0.14922506, -0.40467307, 0.89719284)
+bones/23/rotation = Quaternion(0.06576527, -0.78512424, 0.5874995, 0.18465956)
+bones/24/rotation = Quaternion(-0.45885992, 0.70664173, -0.51726353, -0.15014532)
+bones/25/rotation = Quaternion(0.4920681, 0.46593776, 0.6647748, -0.31439713)
+bones/26/rotation = Quaternion(0.24503258, 0.46455193, -0.16264075, 0.8352836)
+bones/28/rotation = Quaternion(-0.07642705, 0.025202624, 0.9927091, -0.08973564)
+bones/29/rotation = Quaternion(-0.9628427, -0.17212783, -0.115538254, 0.17308056)
+bones/30/rotation = Quaternion(0.57813966, -0.00727865, 0.66259265, -0.47610146)
+bones/31/rotation = Quaternion(0.24006215, -0.6075854, 0.22502796, 0.72289187)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1083905860]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9204389, -0.10208094)
@@ -118,20 +126,6 @@ material_override = SubResource("StandardMaterial3D_7vfxu")
 mesh = SubResource("ImmediateMesh_7vfxu")
 
 [node name="FloorDetector" type="RayCast3D" parent="." unique_id=197028793]
-
-[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1789180138]
-material = ExtResource("5_eh6ys")
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 46.0
-offset_top = -113.0
-offset_right = 192.0
-offset_bottom = -86.0
-grow_vertical = 0
-scale = Vector2(2, 2)
-step = 1.0
-show_percentage = false
 
 [node name="Shuriken" type="Area3D" parent="." unique_id=26062352]
 transform = Transform3D(14.999996, 0, 0, 0, 14.999996, 0, 0, 0, 14.999996, 0.21563831, 0.83764076, -0.98912734)
@@ -157,6 +151,89 @@ debug_color = Color(0.96912247, 0, 0.46653283, 0.41960785)
 
 [node name="ShurikenSpawn" type="Marker3D" parent="." unique_id=2084180710]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9983827, -0.5649137)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2134084741]
+
+[node name="ShurikenUI" type="Node3D" parent="CanvasLayer" unique_id=1521189987]
+
+[node name="ShurikenLabel" type="Label" parent="CanvasLayer/ShurikenUI" unique_id=1085185418]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 103.0
+offset_top = -194.0
+offset_right = 145.0
+offset_bottom = -116.0
+grow_vertical = 0
+text = "3"
+label_settings = SubResource("LabelSettings_qowr5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ShurikenControl" type="Control" parent="CanvasLayer/ShurikenUI" unique_id=1908552146]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 79.0
+offset_top = -153.0
+offset_right = 119.0
+offset_bottom = -113.0
+grow_vertical = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/ShurikenUI/ShurikenControl" unique_id=1292445131]
+modulate = Color(0.5806464, 0.058837317, 0.24752238, 1)
+self_modulate = Color(0.174626, 0.17462596, 0.17462596, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("8_ls0pu")
+
+[node name="BellUI" type="Node3D" parent="CanvasLayer" unique_id=1502574217]
+
+[node name="BellLabel" type="Label" parent="CanvasLayer/BellUI" unique_id=980292176]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 230.0
+offset_top = -193.0
+offset_right = 272.0
+offset_bottom = -115.0
+grow_vertical = 0
+text = "3"
+label_settings = SubResource("LabelSettings_qowr5")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BellControl" type="Control" parent="CanvasLayer/BellUI" unique_id=381269218]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 206.0
+offset_top = -152.0
+offset_right = 246.0
+offset_bottom = -112.0
+grow_vertical = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/BellUI/BellControl" unique_id=568258040]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("8_qowr5")
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=1789180138]
+material = ExtResource("5_eh6ys")
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 46.0
+offset_top = -113.0
+offset_right = 192.0
+offset_bottom = -86.0
+grow_vertical = 0
+scale = Vector2(2, 2)
+step = 1.0
+show_percentage = false
+
+[node name="Inventory" type="Node3D" parent="." unique_id=307835782]
+script = ExtResource("10_p16ke")
 
 [connection signal="body_entered" from="Shuriken" to="Shuriken" method="_on_body_entered"]
 

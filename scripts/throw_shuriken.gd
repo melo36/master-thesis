@@ -4,12 +4,28 @@ extends Area3D
 @onready var projectile_spawn = $"../ShurikenSpawn"
 @onready var shuriken: Area3D = $"../Shuriken"
 var current_target: Node3D = null
+var last_targeted_enemy: Node3D = null
+@onready var label: Label = $"../CanvasLayer/Label"
+
+@onready var inventory: Node3D = $"../Inventory"
 
 func _process(_delta):
+	if inventory.shuriken == 0:
+		return
 	current_target = get_best_target()
-	if current_target:
-		# Here you can update UI/Reticle over the current_target's head
-		pass
+	
+	# If the target changed, handle the indicator states
+	if current_target != last_targeted_enemy:
+		# Turn off the indicator on the old target
+		if is_instance_valid(last_targeted_enemy) and last_targeted_enemy.has_method("set_targeted"):
+			last_targeted_enemy.set_targeted(false)
+			
+		# Turn on the indicator on the new target
+		if is_instance_valid(current_target) and current_target.has_method("set_targeted"):
+			current_target.set_targeted(true)
+			
+		# Track the current target as the last one looked at
+		last_targeted_enemy = current_target
 
 func get_best_target() -> Node3D:
 	var overlapping_bodies = lock_on_radius.get_overlapping_bodies()
@@ -38,11 +54,13 @@ func has_clear_line_of_sight(target: Node3D) -> bool:
 	return false
 
 func _unhandled_input(event):
-	if event.is_action_pressed("throw_weapon") and current_target:
+	if event.is_action_pressed("throw_weapon") and current_target and inventory.shuriken > 0:
 		throw_shuriken()
 
 func throw_shuriken():
 	# Start the projectile at the spawn marker and pass the target reference
+	inventory.shuriken -= 1
+	label.text = str(inventory.shuriken)
 	shuriken.visible = true
 	shuriken.global_position = projectile_spawn.global_position
 	shuriken.launch(current_target)

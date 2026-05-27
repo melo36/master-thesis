@@ -1,27 +1,29 @@
 [gd_scene format=3 uid="uid://1vcvcluwg37m"]
 
-[ext_resource type="Script" uid="uid://dt34br1bx05rb" path="res://scripts/throw_object.gd" id="1_5v50f"]
 [ext_resource type="Script" uid="uid://dkb8ltjc6067n" path="res://addons/raytraced_audio/raytraced_audio_player_3d.gd" id="2_f4tu3"]
+[ext_resource type="AudioStream" uid="uid://bp02b1nbbsekh" path="res://resources/bell_sound.mp3" id="2_u0q28"]
+[ext_resource type="PackedScene" uid="uid://cjsyv0q3wiwch" path="res://models/bell.fbx" id="3_677uy"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_u4f6g"]
+[sub_resource type="GDScript" id="GDScript_677uy"]
+script/source = "extends RigidBody3D
+"
 
-[sub_resource type="SphereMesh" id="SphereMesh_u4f6g"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_677uy"]
+radius = 0.77197266
+height = 2.2324219
 
-[node name="Ball" type="RigidBody3D" unique_id=1285734974]
+[node name="Bell" type="CharacterBody3D" unique_id=1539396921]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
-collision_layer = 8
-collision_mask = 8
-contact_monitor = true
-max_contacts_reported = 10
-script = ExtResource("1_5v50f")
+script = SubResource("GDScript_677uy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=310264405]
-shape = SubResource("SphereShape3D_u4f6g")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1969695162]
-mesh = SubResource("SphereMesh_u4f6g")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.010294497, -0.22980785, 0.062298775)
+shape = SubResource("CapsuleShape3D_677uy")
 
 [node name="RaytracedAudioPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1152859226]
+stream = ExtResource("2_u0q28")
 script = ExtResource("2_f4tu3")
-audibility_threshold_db = -10.0
 metadata/_custom_type_script = "uid://dkb8ltjc6067n"
+
+[node name="bell" parent="." unique_id=14086175 instance=ExtResource("3_677uy")]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
