@@ -1,4 +1,4 @@
-extends CharacterBody3D
+extends RigidBody3D
 
 @onready var raytraced_audio_player_3d: RaytracedAudioPlayer3D = $RaytracedAudioPlayer3D
 var guards = []

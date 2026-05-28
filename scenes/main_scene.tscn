@@ -93,6 +93,7 @@ navigation_mesh = SubResource("NavigationMesh_pu3yx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.029470444, -0.4999962, -0.06465912)
 use_collision = true
 collision_layer = 9
+collision_mask = 9
 size = Vector3(40, 1, 30)
 metadata/surface_data = ExtResource("7_c16ls")
 
@@ -100,6 +101,7 @@ metadata/surface_data = ExtResource("7_c16ls")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.029470444, -0.4999962, -29.9555)
 use_collision = true
 collision_layer = 9
+collision_mask = 9
 size = Vector3(40, 1, 30)
 material = SubResource("StandardMaterial3D_18nlu")
 metadata/surface_data = ExtResource("8_18nlu")
