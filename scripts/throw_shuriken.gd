@@ -60,7 +60,6 @@ func _unhandled_input(event):
 func throw_shuriken():
 	# Start the projectile at the spawn marker and pass the target reference
 	inventory.shuriken -= 1
-	label.text = str(inventory.shuriken)
 	shuriken.visible = true
 	shuriken.global_position = projectile_spawn.global_position
 	shuriken.launch(current_target)

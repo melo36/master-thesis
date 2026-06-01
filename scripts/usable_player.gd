@@ -12,6 +12,7 @@ var stance: Stance = Stance.STAND
 var crouch_pressed := false
 var crouch_press_time := 0.0
 @export var crawl_hold_threshold := 0.25
+@onready var inventory: Node3D = $Inventory
 
 # =========================
 # MOVEMENT / NOISE
@@ -67,7 +68,7 @@ var throw_strength := 0.0
 @export var max_charge := 2.0
 
 # RE-REFERENCE: Make sure the node name matches exactly in your scene tree
-@onready var trajectory_line = $TrajectoryLine 
+@onready var trajectory_line: MeshInstance3D = $"../TrajectoryLine"
 
 # ==================================================
 # READY
@@ -129,7 +130,7 @@ func _input(event):
 	
 		if result && "Guard" in result.collider.name:
 			result.collider.die()
-	if event.is_action_pressed("shoot"):
+	if inventory.bells > 0 && event.is_action_pressed("shoot"):
 		is_aiming = true
 		throw_cancelled = false
 		throw_strength = 0.0
@@ -224,29 +225,47 @@ func update_trajectory_preview():
 	var points = []
 	var start_pos = global_position + Vector3.UP * 1.5
 	var current_velocity = get_throw_velocity()
-	var current_pos = start_pos + Vector3(10,0,10)
+	var current_pos = start_pos
 	
+	var gravity_val = gravity if "gravity" in self else ProjectSettings.get_setting("physics/3d/default_gravity")
 	var step_delta = 0.05 
+	
 	for i in range(40):
 		points.append(current_pos)
 		current_pos += current_velocity * step_delta
-		current_velocity.y -= gravity * step_delta
+		current_velocity.y -= gravity_val * step_delta
 		
 	var mesh: ImmediateMesh = trajectory_line.mesh
 	mesh.clear_surfaces()
 	
-	# We draw the path 3 times with a tiny offset to "thicken" the line
-	var offsets = [
-		Vector3(0, 0, 0),
-		Vector3(0.02, 0.02, 0), 
-		Vector3(-0.02, -0.02, 0)
-	]
+	# We use TRIANGLE_STRIP to create solid geometry blocks
+	mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLE_STRIP)
 	
-	for offset in offsets:
-		mesh.surface_begin(Mesh.PRIMITIVE_LINE_STRIP)
-		for p in points:
-			mesh.surface_add_vertex(p + offset)
-		mesh.surface_end()
+	var thickness = 0.1 # <--- CHANGE THIS VALUE TO MAKE IT THICKER OR THINNER!
+	
+	for i in range(points.size()):
+		var local_point = trajectory_line.to_local(points[i])
+		
+		# Find the direction the line is moving at this specific segment
+		var forward_dir = Vector3.FORWARD
+		if i < points.size() - 1:
+			forward_dir = (points[i+1] - points[i]).normalized()
+		elif i > 0:
+			forward_dir = (points[i] - points[i-1]).normalized()
+			
+		# Calculate a precise "right" vector perpendicular to the arc's travel direction
+		var right_dir = forward_dir.cross(Vector3.UP).normalized()
+		if right_dir == Vector3.ZERO: # Fallback if throwing perfectly straight up
+			right_dir = Vector3.RIGHT
+			
+		# Extrude vertices outwards to both sides
+		var left_vertex = local_point - (right_dir * (thickness * 0.5))
+		var right_vertex = local_point + (right_dir * (thickness * 0.5))
+		
+		mesh.surface_add_vertex(left_vertex)
+		mesh.surface_add_vertex(right_vertex)
+		
+	mesh.surface_end()
 
 # ==================================================
 # CORE MECHANICS
@@ -313,8 +332,16 @@ func release_throw():
 
 func get_throw_velocity() -> Vector3:
 	var forward = -global_transform.basis.z
+	
+	# 1. Blend the forward vector with a local upward vector to lift the trajectory
+	# This keeps the upward arc perfectly aligned with your looking direction
+	var throw_direction = (forward + Vector3.UP * 0.3).normalized()
+	
+	# 2. Calculate your dynamic strength
 	var strength = lerp(7.0, 20.0, throw_strength / max_charge)
-	return forward * strength + Vector3.UP * 3.0
+	
+	# 3. Return the corrected directional velocity
+	return throw_direction * strength
 
 func spawn_projectile():
 	var projectile_scene = load("res://scenes/throw_object.tscn")
@@ -323,6 +350,7 @@ func spawn_projectile():
 		get_tree().current_scene.add_child(projectile)
 		projectile.global_position = global_position + Vector3.UP * 1.5
 		projectile.linear_velocity = get_throw_velocity()
+		inventory.bells -= 1
 
 func emit_footsteps():
 	if not audioPlayer.is_playing() and is_on_floor():

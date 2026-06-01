@@ -270,8 +270,10 @@ func handle_animation():
 	animationTree.set("parameters/conditions/walking", current_state == State.PATROL)
 	
 func die():
-	state_indicator.visible = false
-	vision_cone.visible = false
+	if dead:
+		return
+	state_indicator.queue_free()
+	vision_cone.queue_free()
 	guard_movement.set_state(guard_movement.State.DEAD)
 	state_machine.travel("Death")
 	dead = true

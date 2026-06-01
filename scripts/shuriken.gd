@@ -25,12 +25,8 @@ func _physics_process(delta):
 	global_position += direction * speed * delta
 
 func _on_body_entered(body):
-	print("Entered something")
 	if body.is_in_group("Guard"):
-		print("Hit guard")
 		if body.has_method("die"):
 			body.die() # Instant lethal kill call
-		visible = false
-	else:
-		# Hit environmental geometry, destroy or lodge into the wall
-		visible = false
+			
+	visible = false

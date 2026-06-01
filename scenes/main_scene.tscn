@@ -38,6 +38,13 @@ agent_radius = 2.0
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_18nlu"]
 albedo_color = Color(0, 0.57545763, 0.3379469, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c1pb6"]
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.13333334, 0.2, 0.42352942, 1)
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_6wevv"]
+
 [node name="Node3D" type="Node3D" unique_id=1982697563]
 
 [node name="Light Posts" type="Node" parent="." unique_id=1144735951]
@@ -231,3 +238,8 @@ transform = Transform3D(0.28635767, 0.94677246, -0.1470414, 0.08712649, 0.127101
 light_color = Color(0.98890656, 0.7759308, 0.75068456, 1)
 light_energy = 0.2
 shadow_enabled = true
+
+[node name="TrajectoryLine" type="MeshInstance3D" parent="." unique_id=1402765162]
+visible = false
+material_override = SubResource("StandardMaterial3D_c1pb6")
+mesh = SubResource("ImmediateMesh_6wevv")

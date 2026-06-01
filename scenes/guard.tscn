@@ -40,7 +40,6 @@ script = ExtResource("1_m4fl1")
 metadata/_custom_type_script = "uid://bjpmu5sklv5h8"
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=823578958]
-debug_enabled = true
 script = SubResource("GDScript_ci2qi")
 
 [node name="NoiseSensor" type="Node3D" parent="." unique_id=115091329]
@@ -54,6 +53,7 @@ view_distance = 30.0
 view_angle_deg = 165.0
 memory_duration = 50.0
 detection_speed = 1.0
+show_debug_cone = false
 
 [node name="GuardMovement" type="Node3D" parent="." unique_id=1159603037]
 script = ExtResource("6_5dfqo")
@@ -62,6 +62,7 @@ tolerance = 2
 
 [node name="VisionCone" type="MeshInstance3D" parent="." unique_id=1479462717]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -2.887258)
+visible = false
 layers = 2
 mesh = SubResource("CylinderMesh_gn8tx")
 surface_material_override/0 = SubResource("StandardMaterial3D_gn8tx")
