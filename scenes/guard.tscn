@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ir335gkyusmm"]
 
 [ext_resource type="Script" uid="uid://bx7gmts57qet5" path="res://scripts/guard_noise_behavior.gd" id="1_ci2qi"]
-[ext_resource type="Script" uid="uid://cndk6qmwj7qyo" path="res://scripts/guard_brain.gd" id="1_k0dx2"]
+[ext_resource type="Script" uid="uid://djtt4pet86qqh" path="res://scripts/guard_brain.gd" id="1_k0dx2"]
 [ext_resource type="Script" uid="uid://bjpmu5sklv5h8" path="res://addons/raytraced_audio/raytraced_audio_listener.gd" id="1_m4fl1"]
 [ext_resource type="Script" uid="uid://bpajbi2wk1nxv" path="res://scripts/guard_vision_behavior.gd" id="5_gn8tx"]
 [ext_resource type="Script" uid="uid://4dkpyhsv7o23" path="res://scripts/guard_movement.gd" id="6_5dfqo"]
@@ -40,6 +40,7 @@ script = ExtResource("1_m4fl1")
 metadata/_custom_type_script = "uid://bjpmu5sklv5h8"
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=823578958]
+debug_enabled = true
 script = SubResource("GDScript_ci2qi")
 
 [node name="NoiseSensor" type="Node3D" parent="." unique_id=115091329]

@@ -57,15 +57,15 @@ const VERTICAL_NEIGHBOR_DELTAS: Array = [0, 1, -1, 2, -2]
 # =====================================================================
 func solve(last_known_pos: Vector3, last_known_dir: Vector3) -> void:
 	if _solving:
-		print("ChaseInfluenceMap: solve() called while already solving — ignoring")
+		#print("ChaseInfluenceMap: solve() called while already solving — ignoring")
 		return
 	if not navigation_map.is_valid():
-		print("ChaseInfluenceMap: navigation_map RID is invalid — emitting chase_failed")
+		#print("ChaseInfluenceMap: navigation_map RID is invalid — emitting chase_failed")
 		chase_failed.emit()
 		return
 	_solving = true
 	_build_local_grid(last_known_pos)
-	print("ChaseInfluenceMap: built grid with %d cells" % _cell_pos.size())
+	#print("ChaseInfluenceMap: built grid with %d cells" % _cell_pos.size())
 	_seed(last_known_pos, last_known_dir)
 	set_process(true)
 
@@ -141,7 +141,7 @@ func _seed(last_known_pos: Vector3, last_known_dir: Vector3) -> void:
 
 	var seed_grid: Vector3i = _closest_cell(last_known_pos)
 	if not _cell_pos.has(seed_grid):
-		print("ChaseInfluenceMap: no navmesh cell near last-known position ", last_known_pos)
+		#print("ChaseInfluenceMap: no navmesh cell near last-known position ", last_known_pos)
 		_solving = false
 		set_process(false)
 		chase_failed.emit()
@@ -229,13 +229,13 @@ func _finish() -> void:
 			sum_w += float(t)
 
 	if sum_w <= 0.0:
-		print("ChaseInfluenceMap: no warm cells at finish — emitting chase_failed")
+		#print("ChaseInfluenceMap: no warm cells at finish — emitting chase_failed")
 		chase_failed.emit()
 		return
 
 	var centroid: Vector3 = sum_pos / sum_w
 	var dest: Vector3 = NavigationServer3D.map_get_closest_point(navigation_map, centroid)
-	print("ChaseInfluenceMap: finished after %d steps, %d warm cells, centroid=%s" % [_step, _warm_cells.size(), str(centroid)])
+	#print("ChaseInfluenceMap: finished after %d steps, %d warm cells, centroid=%s" % [_step, _warm_cells.size(), str(centroid)])
 	chase_destination_ready.emit(dest)
 
 

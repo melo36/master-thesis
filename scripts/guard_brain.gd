@@ -8,6 +8,7 @@ extends CharacterBody3D
 @onready var state_indicator: Label3D = $StateIndicator
 @onready var vision_cone: MeshInstance3D = $VisionCone
 @onready var shuriken_indicator: Sprite3D = $ShurikenIndicator
+@onready var player: CharacterBody3D = $"../Player"
 
 var animationTree
 var state_machine
@@ -29,6 +30,7 @@ var _search_destination: Vector3 = Vector3.ZERO
 var _has_search_destination: bool = false
 var _solver_pending: bool = false
 var _search_started_at: float = 0.0
+var wall_hacks: int = 3
 
 # How close the guard must be to its search destination to consider the search done
 @export var search_arrival_tolerance: float = 1.0
@@ -78,9 +80,16 @@ func _update_state():
 	#    IMPORTANT: set current_state BEFORE calling solve() because solve() can
 	#    emit chase_failed synchronously and _on_search_failed checks current_state.
 	if current_state == State.CHASE:
-		current_state = State.SEARCH_LOST
-		_start_search_lost()
-		#print("SearchLost (computing)")
+		if _search_started_at == 0.0:
+			_search_started_at = (Time.get_ticks_msec() / 1000.0)
+		var elapsed = (Time.get_ticks_msec() / 1000.0) - _search_started_at
+		print("Elapsed ", elapsed)
+		if elapsed < wall_hacks:
+			vision_sensor.last_known_position = player.global_position
+		else:
+			current_state = State.SEARCH_LOST
+			_start_search_lost()
+			#print("SearchLost (computing)")
 		return
 
 	# 3. NEW: SEARCH_LOST is sticky — don't let sensor logic overwrite it
@@ -184,7 +193,7 @@ func _start_search_lost() -> void:
 
 	var last_pos: Vector3 = vision_sensor.get_last_known_position()
 	var last_dir: Vector3 = _estimate_player_direction()
-	print("Solver: starting (seed=", last_pos, ", dir=", last_dir, ")")
+	#print("Solver: starting (seed=", last_pos, ", dir=", last_dir, ")")
 	chase_solver.solve(last_pos, last_dir)
 
 
@@ -204,9 +213,9 @@ func _reseed_search_from_noise(noise_pos: Vector3) -> void:
 
 	_solver_pending = true
 	_has_search_destination = false
-	_search_started_at = Time.get_ticks_msec() / 1000.0  # fresh commitment
+	#_search_started_at = Time.get_ticks_msec() / 1000.0  # fresh commitment
 
-	print("Solver: re-seeded from noise (seed=", noise_pos, ", dir=", dir.normalized(), ")")
+	#print("Solver: re-seeded from noise (seed=", noise_pos, ", dir=", dir.normalized(), ")")
 	chase_solver.solve(noise_pos, dir.normalized())
 
 
@@ -223,7 +232,7 @@ func _continue_search_lost_from(from_pos: Vector3) -> void:
 	# NB: do NOT reset _search_started_at — commitment timer is preserved.
 
 	var dir: Vector3 = _estimate_player_direction()
-	print("Solver: re-flood (seed=", from_pos, ", dir=", dir, ")")
+	#print("Solver: re-flood (seed=", from_pos, ", dir=", dir, ")")
 	chase_solver.solve(from_pos, dir)
 
 
