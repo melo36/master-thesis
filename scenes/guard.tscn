@@ -86,3 +86,7 @@ transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.7853942, -0.498373
 visible = false
 billboard = 1
 texture = ExtResource("9_rmy4q")
+
+[node name="MuzzleRaycast" type="RayCast3D" parent="." unique_id=22760305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1872306, -0.64227575)
+debug_shape_custom_color = Color(0.30344206, 0.0006543857, 0.7874915, 1)

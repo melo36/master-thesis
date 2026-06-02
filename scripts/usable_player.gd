@@ -29,6 +29,7 @@ var crouch_press_time := 0.0
 @export var crawl_speed = 1.2
 
 @onready var floor_detector: RayCast3D = $FloorDetector
+@onready var progress_bar: ProgressBar = $CanvasLayer/ProgressBar
 
 # =========================
 # VISIBILITY
@@ -48,6 +49,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var sprinting := false
 var lastLookAtDirection: Vector3
 
+
 # =========================
 # REFERENCES
 # =========================
@@ -56,6 +58,8 @@ var animationTree
 var audioPlayer
 var guards = []
 var state_machine
+
+var health = 100
 
 
 # =========================
@@ -351,6 +355,10 @@ func spawn_projectile():
 		projectile.global_position = global_position + Vector3.UP * 1.5
 		projectile.linear_velocity = get_throw_velocity()
 		inventory.bells -= 1
+		
+func take_damage(damage):
+	health -= damage
+	progress_bar.value = health
 
 func emit_footsteps():
 	if not audioPlayer.is_playing() and is_on_floor():

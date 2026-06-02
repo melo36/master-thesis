@@ -55,11 +55,6 @@ xfade_time = 0.2
 advance_mode = 2
 advance_condition = &"alerted"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xp881"]
-xfade_time = 0.2
-advance_mode = 2
-advance_condition = &"shooting"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ky6ul"]
 xfade_time = 0.2
 advance_mode = 2
@@ -93,6 +88,26 @@ xfade_time = 0.2
 advance_mode = 2
 advance_expression = "!get(\"parameters/conditions/chasing\") && get(\"parameters/conditions/walking\")"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_brf1g"]
+xfade_time = 0.5
+advance_mode = 2
+advance_condition = &"shooting"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_srqkm"]
+xfade_time = 0.5
+advance_mode = 2
+advance_condition = &"shooting"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j0ode"]
+xfade_time = 0.5
+advance_mode = 2
+advance_condition = &"shooting"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qn31l"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "!get(\"parameters/conditions/shooting\")"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ycvn0"]
 "states/Alerted Walking/node" = SubResource("AnimationNodeAnimation_ycvn0")
 "states/Alerted Walking/position" = Vector2(373.14493, 274.5383)
@@ -104,12 +119,12 @@ states/End/position = Vector2(1085, 78.5)
 states/Idle/node = SubResource("AnimationNodeAnimation_coa1f")
 states/Idle/position = Vector2(373.72742, 92.304474)
 states/Shooting/node = SubResource("AnimationNodeAnimation_n73en")
-states/Shooting/position = Vector2(803.3699, 78.85895)
+states/Shooting/position = Vector2(769.3699, 78.85895)
 states/Start/position = Vector2(186.5, 77.10895)
 states/Walking/node = SubResource("AnimationNodeAnimation_4o35p")
 states/Walking/position = Vector2(574.0868, 79.21789)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_v2277"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_q0fjp"), "Walking", "Alerted Walking", SubResource("AnimationNodeStateMachineTransition_s2x3p"), "Walking", "Shooting", SubResource("AnimationNodeStateMachineTransition_xp881"), "Walking", "Chasing", SubResource("AnimationNodeStateMachineTransition_ky6ul"), "Alerted Walking", "Chasing", SubResource("AnimationNodeStateMachineTransition_ew2xw"), "Chasing", "Alerted Walking", SubResource("AnimationNodeStateMachineTransition_d8nmi"), "Idle", "Alerted Walking", SubResource("AnimationNodeStateMachineTransition_bm0th"), "Idle", "Chasing", SubResource("AnimationNodeStateMachineTransition_coa1f"), "Alerted Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_c8dxn"), "Chasing", "Idle", SubResource("AnimationNodeStateMachineTransition_u5ry0")]
-graph_offset = Vector2(134.45981, -75.70673)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_v2277"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_q0fjp"), "Walking", "Alerted Walking", SubResource("AnimationNodeStateMachineTransition_s2x3p"), "Walking", "Chasing", SubResource("AnimationNodeStateMachineTransition_ky6ul"), "Alerted Walking", "Chasing", SubResource("AnimationNodeStateMachineTransition_ew2xw"), "Chasing", "Alerted Walking", SubResource("AnimationNodeStateMachineTransition_d8nmi"), "Idle", "Alerted Walking", SubResource("AnimationNodeStateMachineTransition_bm0th"), "Idle", "Chasing", SubResource("AnimationNodeStateMachineTransition_coa1f"), "Alerted Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_c8dxn"), "Chasing", "Idle", SubResource("AnimationNodeStateMachineTransition_u5ry0"), "Walking", "Shooting", SubResource("AnimationNodeStateMachineTransition_brf1g"), "Chasing", "Shooting", SubResource("AnimationNodeStateMachineTransition_srqkm"), "Alerted Walking", "Shooting", SubResource("AnimationNodeStateMachineTransition_j0ode"), "Shooting", "Walking", SubResource("AnimationNodeStateMachineTransition_qn31l")]
+graph_offset = Vector2(72.434814, 18.605843)
 
 [node name="guard" unique_id=904658031 instance=ExtResource("1_c22s3")]
 
