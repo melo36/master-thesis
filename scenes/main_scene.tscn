@@ -240,6 +240,5 @@ light_energy = 0.2
 shadow_enabled = true
 
 [node name="TrajectoryLine" type="MeshInstance3D" parent="." unique_id=1402765162]
-visible = false
 material_override = SubResource("StandardMaterial3D_c1pb6")
 mesh = SubResource("ImmediateMesh_6wevv")

@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://1y57q75bqm6" path="res://models/guard.fbx" id="1_c22s3"]
 [ext_resource type="Animation" uid="uid://bv4dngmdffjx0" path="res://animations/clips/alerted_walking.tres" id="2_435jh"]
+[ext_resource type="PackedScene" uid="uid://uwh0oya8cqll" path="res://models/gun_model.fbx" id="2_srqkm"]
 [ext_resource type="Animation" uid="uid://dus7ggng77tdp" path="res://animations/clips/guard_death.tres" id="3_ycvn0"]
 [ext_resource type="Animation" uid="uid://bh554gp342qtv" path="res://animations/clips/guard_shooting.tres" id="4_bm0th"]
 [ext_resource type="Animation" uid="uid://b1inovds8oc" path="res://animations/clips/guard_idle.tres" id="4_ycvn0"]
@@ -120,11 +121,11 @@ states/Idle/node = SubResource("AnimationNodeAnimation_coa1f")
 states/Idle/position = Vector2(373.72742, 92.304474)
 states/Shooting/node = SubResource("AnimationNodeAnimation_n73en")
 states/Shooting/position = Vector2(769.3699, 78.85895)
-states/Start/position = Vector2(186.5, 77.10895)
+states/Start/position = Vector2(200.5, 93.95671)
 states/Walking/node = SubResource("AnimationNodeAnimation_4o35p")
 states/Walking/position = Vector2(574.0868, 79.21789)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_v2277"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_q0fjp"), "Walking", "Alerted Walking", SubResource("AnimationNodeStateMachineTransition_s2x3p"), "Walking", "Chasing", SubResource("AnimationNodeStateMachineTransition_ky6ul"), "Alerted Walking", "Chasing", SubResource("AnimationNodeStateMachineTransition_ew2xw"), "Chasing", "Alerted Walking", SubResource("AnimationNodeStateMachineTransition_d8nmi"), "Idle", "Alerted Walking", SubResource("AnimationNodeStateMachineTransition_bm0th"), "Idle", "Chasing", SubResource("AnimationNodeStateMachineTransition_coa1f"), "Alerted Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_c8dxn"), "Chasing", "Idle", SubResource("AnimationNodeStateMachineTransition_u5ry0"), "Walking", "Shooting", SubResource("AnimationNodeStateMachineTransition_brf1g"), "Chasing", "Shooting", SubResource("AnimationNodeStateMachineTransition_srqkm"), "Alerted Walking", "Shooting", SubResource("AnimationNodeStateMachineTransition_j0ode"), "Shooting", "Walking", SubResource("AnimationNodeStateMachineTransition_qn31l")]
-graph_offset = Vector2(72.434814, 18.605843)
+graph_offset = Vector2(208.88982, 82.73835)
 
 [node name="guard" unique_id=904658031 instance=ExtResource("1_c22s3")]
 
@@ -182,6 +183,14 @@ bones/60/rotation = Quaternion(-0.120632194, 0.078506865, 0.98843205, 0.04782043
 bones/61/rotation = Quaternion(-0.17842154, 0.034800258, -0.010844162, 0.98327875)
 bones/62/rotation = Quaternion(0.580867, 0.046594687, 0.00781393, 0.81262624)
 bones/63/rotation = Quaternion(0.22770861, 0.03211992, 0.0152574815, 0.9730799)
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Skeleton3D" index="2" unique_id=1021664695]
+transform = Transform3D(0.41538724, -0.20298657, 0.8867072, 0.18423444, -0.9358084, -0.3005334, 0.8907923, 0.28819975, -0.35132572, -0.29166743, 0.934137, 0.09843841)
+bone_name = "mixamorig_RightHand"
+bone_idx = 34
+
+[node name="gun" parent="Skeleton3D/BoneAttachment3D" index="0" unique_id=1858501248 instance=ExtResource("2_srqkm")]
+transform = Transform3D(-7.6494935e-08, 1.7499999, 7.649493e-08, 0, -7.649493e-08, 1.75, 1.7500001, 7.649493e-08, 3.3436996e-15, -0.02218151, 0.17506129, 0.05046612)
 
 [node name="AnimationPlayer" parent="." index="1" unique_id=203577603]
 libraries/Custom = SubResource("AnimationLibrary_n73en")

@@ -141,7 +141,7 @@ func _input(event):
 		if trajectory_line: trajectory_line.show()
 
 	if event.is_action_released("shoot") and is_aiming:
-		if not throw_cancelled: release_throw()
+		if not throw_cancelled: spawn_projectile()
 		is_aiming = false
 		if trajectory_line: trajectory_line.hide()
 
@@ -330,9 +330,6 @@ func update_animation(input_dir: Vector2):
 	animationTree.set("parameters/conditions/walking", input_dir.y != 0 and on_floor)
 	animationTree.set("parameters/Walking/conditions/strafeLeft", input_dir.x == -1.0 && is_on_floor())
 	animationTree.set("parameters/Walking/conditions/strafeRight", input_dir.x == 1.0 && is_on_floor())
-
-func release_throw():
-	spawn_projectile()
 
 func get_throw_velocity() -> Vector3:
 	var forward = -global_transform.basis.z

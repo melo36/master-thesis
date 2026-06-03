@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://0aheq7ds5dh8"]
+
+[ext_resource type="Texture2D" uid="uid://c362t15xlrnnb" path="res://models/M9_Colour.png" id="1_atgo1"]
+
+[resource]
+albedo_texture = ExtResource("1_atgo1")
+metallic = 1.0

@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://d3elvbasyc0b" path="res://scenes/guard_model.tscn" id="8_c4sgu"]
 [ext_resource type="Script" uid="uid://b1qirgxs5mc4t" path="res://scripts/guard_state_indicator.gd" id="8_indicator"]
 [ext_resource type="Texture2D" uid="uid://dpsoct00lvvod" path="res://resources/blade.png" id="9_rmy4q"]
+[ext_resource type="AudioStream" uid="uid://yr7nlygrsaem" path="res://sounds/gun_shot.mp3" id="10_lpkwa"]
+[ext_resource type="Script" uid="uid://dkb8ltjc6067n" path="res://addons/raytraced_audio/raytraced_audio_player_3d.gd" id="11_17ufb"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c4sgu"]
 height = 1.7612305
@@ -90,3 +92,13 @@ texture = ExtResource("9_rmy4q")
 [node name="MuzzleRaycast" type="RayCast3D" parent="." unique_id=22760305]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1872306, -0.64227575)
 debug_shape_custom_color = Color(0.30344206, 0.0006543857, 0.7874915, 1)
+
+[node name="GunSoundPlayer" type="AudioStreamPlayer3D" parent="." unique_id=308494499]
+stream = ExtResource("10_lpkwa")
+attenuation_model = 1
+volume_db = -10.0
+unit_size = 7.0
+max_db = 2.0
+pitch_scale = 2.0
+script = ExtResource("11_17ufb")
+metadata/_custom_type_script = "uid://dkb8ltjc6067n"

@@ -35,7 +35,7 @@ func get_best_target() -> Node3D:
 	for body in overlapping_bodies:
 		if body.is_in_group("Guard"):
 			# Ensure the guard isn't behind a wall before locking on
-			if has_clear_line_of_sight(body):
+			if has_clear_line_of_sight(body) && !body.dead:
 				var distance = global_position.distance_to(body.global_position)
 				if distance < closest_distance:
 					closest_distance = distance

@@ -10,6 +10,7 @@ extends CharacterBody3D
 @onready var shuriken_indicator: Sprite3D = $ShurikenIndicator
 @onready var player: CharacterBody3D = $"../Player"
 @onready var muzzle_raycast: RayCast3D = $MuzzleRaycast
+@onready var gun_sound_player: RaytracedAudioPlayer3D = $GunSoundPlayer
 
 var animationTree
 var state_machine
@@ -176,6 +177,7 @@ func _execute_state(delta: float):
 
 func _fire_gun() -> void:
 	print("BANG! Guard fired a hitscan shot.")
+	gun_sound_player.play()
 	
 	# 1. Calculate the vector pointing from the guard to the player's chest
 	var guard_chest = global_position + Vector3(0, 1.2, 0)
@@ -283,9 +285,9 @@ func _on_search_failed() -> void:
 	print("Solver: failed (will fall back after min_search_duration)")
 	
 func handle_animation():
-	if current_state == State.SHOOT:
-		state_machine.travel("Shooting")
-	animationTree.set("parameters/conditions/dead", false)
+	if current_state == State.INVESTIGATE || current_state == State.SEARCH_LOST ||  current_state == State.CHASE:
+		await get_tree().create_timer(1.5).timeout
+	animationTree.set("parameters/conditions/dead", false) 
 	animationTree.set("parameters/conditions/shooting", current_state == State.SHOOT)
 	animationTree.set("parameters/conditions/alerted", current_state == State.INVESTIGATE || current_state == State.SEARCH_LOST)
 	animationTree.set("parameters/conditions/chasing", current_state == State.CHASE)
@@ -296,14 +298,13 @@ func die():
 		return
 	state_indicator.queue_free()
 	vision_cone.queue_free()
-	guard_movement.set_state(guard_movement.State.DEAD)
+	guard_movement.queue_free()
 	state_machine.travel("Death")
 	dead = true
 	set_targeted(false)
 	
 func set_targeted(targeted: bool):
 	shuriken_indicator.visible = targeted
-
 
 func investigate_sound(target_position: Vector3):
 	noise_sensor.register_sound(target_position)
