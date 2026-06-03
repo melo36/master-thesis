@@ -8,7 +8,7 @@ extends CharacterBody3D
 @onready var state_indicator: Label3D = $StateIndicator
 @onready var vision_cone: MeshInstance3D = $VisionCone
 @onready var shuriken_indicator: Sprite3D = $ShurikenIndicator
-@onready var player: CharacterBody3D = $"../Player"
+@onready var player: CharacterBody3D = $"../../Player"
 @onready var muzzle_raycast: RayCast3D = $MuzzleRaycast
 @onready var gun_sound_player: RaytracedAudioPlayer3D = $GunSoundPlayer
 
@@ -285,8 +285,6 @@ func _on_search_failed() -> void:
 	print("Solver: failed (will fall back after min_search_duration)")
 	
 func handle_animation():
-	if current_state == State.INVESTIGATE || current_state == State.SEARCH_LOST ||  current_state == State.CHASE:
-		await get_tree().create_timer(1.5).timeout
 	animationTree.set("parameters/conditions/dead", false) 
 	animationTree.set("parameters/conditions/shooting", current_state == State.SHOOT)
 	animationTree.set("parameters/conditions/alerted", current_state == State.INVESTIGATE || current_state == State.SEARCH_LOST)
