@@ -45,7 +45,7 @@ func _physics_process(delta):
 		var dist: float = guard.global_position.distance_to(player.global_position)
 		var t: float = clamp(dist / view_distance, 0.0, 1.0)
 		var dist_factor: float = lerp(1.0, detection_falloff_min, t)
-		detection_strength += detection_speed * dist_factor * player.get_visibility()
+		detection_strength += detection_speed * dist_factor * player.get_visibility() * delta
 		last_seen_time = now
 		# Estimate player velocity from successive sightings
 		if _has_previous_position and delta > 0.0:

@@ -257,13 +257,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.370187, 0, 2.0795364)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.84359, 0, 4.8451586)
 
 [node name="Marker3D2" type="Marker3D" parent="Guard2/PatrolRoute" unique_id=442450276]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6590452, 0, 4.8451586)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6590452, 0, 2.8451576)
 
 [node name="Marker3D4" type="Marker3D" parent="Guard2/PatrolRoute" unique_id=318299378]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.084832, 0, 4.8451586)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.084832, 0, 2.8451576)
 
 [node name="Marker3D5" type="Marker3D" parent="Guard2/PatrolRoute" unique_id=867489693]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.954969, 0, 4.8451586)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.954969, 0, 1.8451576)
 
 [node name="Guard" parent="Guard2" unique_id=746730281 instance=ExtResource("4_pu3yx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6102085, 16.555035)
+attack_range = 20.0

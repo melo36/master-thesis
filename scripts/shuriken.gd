@@ -30,3 +30,4 @@ func _on_body_entered(body):
 			body.die() # Instant lethal kill call
 			
 	visible = false
+	global_position = Vector3.ZERO

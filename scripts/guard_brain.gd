@@ -96,7 +96,6 @@ func _update_state():
 		if _search_started_at == 0.0:
 			_search_started_at = (Time.get_ticks_msec() / 1000.0)
 		var elapsed = (Time.get_ticks_msec() / 1000.0) - _search_started_at
-		print("Elapsed ", elapsed)
 		
 		if elapsed < wall_hacks:
 			# Force state back to CHASE so the guard actively pursues the cheat updates
@@ -178,6 +177,11 @@ func _execute_state(delta: float):
 func _fire_gun() -> void:
 	print("BANG! Guard fired a hitscan shot.")
 	gun_sound_player.play()
+	
+	# Not every shot should hit
+	var rand = randi_range(1,100)
+	if rand > 65:
+		return
 	
 	# 1. Calculate the vector pointing from the guard to the player's chest
 	var guard_chest = global_position + Vector3(0, 1.2, 0)

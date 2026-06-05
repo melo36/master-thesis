@@ -30,7 +30,7 @@ func set_state(new_state: State, target: Vector3 = Vector3.ZERO):
 		state = State.DEAD
 		return
 	
-	if state != new_state:
+	if false && state != new_state:
 		state = State.DEFAULT
 		guard.velocity = Vector3(0,0,0)
 		await get_tree().create_timer(1.0).timeout
