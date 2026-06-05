@@ -13,6 +13,8 @@ func launch(target: Node3D):
 		direction = (target_node.global_position + Vector3.UP - global_position).normalized()
 
 func _physics_process(delta):
+	if !visible:
+		return
 	if is_instance_valid(target_node):
 		# Re-orient slightly toward the target dynamically (Soft Homing)
 		var target_dir = (target_node.global_position + Vector3.UP - global_position).normalized()
