@@ -21,7 +21,7 @@ enum State {
 	PATROL,
 	INVESTIGATE,
 	CHASE,
-	SHOOT,                 # NEW: Combat shooting state
+	SHOOT,                # NEW: Combat shooting state
 	SEARCH_LOST    # Pursuing the player after losing sight, using the influence-map flood
 }
 
@@ -49,6 +49,9 @@ var _fire_timer: float = 0.0
 @export var search_noise_interrupt: float = 1.5
 # Minimum time to commit to SEARCH_LOST before any exit path is allowed.
 @export var min_search_duration: float = 5.0
+
+# --- INVESTIGATE CONFIGURATION ---
+@export var investigate_arrival_tolerance: float = 1.0  # Distance to consider destination reached
 
 
 func _ready() -> void:
@@ -108,8 +111,10 @@ func _update_state():
 
 	# 3. SEARCH_LOST is sticky
 	if current_state == State.SEARCH_LOST:
+		# Only interrupt SEARCH_LOST if a genuinely fresh/loud sound occurs
 		if noise_sensor.get_sound_strength() > search_noise_interrupt:
 			_reseed_search_from_noise(noise_sensor.get_last_sound_position())
+			current_state = State.INVESTIGATE
 			return
 
 		var elapsed: float = (Time.get_ticks_msec() / 1000.0) - _search_started_at
@@ -119,11 +124,10 @@ func _update_state():
 			if elapsed < min_search_duration:
 				_continue_search_lost_from(_search_destination)
 				return
+			
+			# Search duration expired and arrived at destination: Clean up and go to patrol
 			_reset_search()
-			if noise_sensor.get_sound_strength() > 0.2:
-				current_state = State.INVESTIGATE
-			else:
-				current_state = State.PATROL
+			current_state = State.PATROL
 			return
 
 		if elapsed < min_search_duration:
@@ -131,35 +135,62 @@ func _update_state():
 
 		if not _has_search_destination:
 			_reset_search()
-			if noise_sensor.get_sound_strength() > 0.2:
-				current_state = State.INVESTIGATE
-			else:
-				current_state = State.PATROL
+			current_state = State.PATROL
 			return
 
 		return
 
-	# 4. Sound if no vision
+	# 4. INVESTIGATE is sticky until arrival
+	if current_state == State.INVESTIGATE:
+		var sound_pos = noise_sensor.get_last_sound_position()
+		
+		# Flatten vectors to 2D (X and Z) to ignore height differences
+		var guard_pos_2d = Vector3(global_position.x, 0, global_position.z)
+		var sound_pos_2d = Vector3(sound_pos.x, 0, sound_pos.z)
+		var dist_to_sound = guard_pos_2d.distance_to(sound_pos_2d)
+		
+		# Check BOTH our manual 2D distance AND if the navigation agent thinks it's done
+		if dist_to_sound <= investigate_arrival_tolerance or nav_agent.is_navigation_finished():
+		# --- FIX: Clear the noise sensor memory so it doesn't re-trigger next frame ---
+			if noise_sensor.has_method("clear"):
+				noise_sensor.clear()
+			else:
+				# Fallback if no clear method exists: overwrite it with zero loudness/current pos
+				noise_sensor.register_sound(global_position) 
+				if "sound_strength" in noise_sensor:
+					noise_sensor.sound_strength = 0.0 # Or whatever your sensor uses internally
+					
+			current_state = State.PATROL
+			return
+			
+		# Bypass the fallback code below to stay committed to this state
+		return
+
+	# 5. Initial state change via sound sensors (Fallback capture)
 	if noise_sensor.get_sound_strength() > 0.2:
 		current_state = State.INVESTIGATE
 		return
 
-	# 5. Default
+	# 6. Default
 	current_state = State.PATROL
 
 
 func _execute_state(delta: float):
 	match current_state:
 		State.PATROL:
+			print("Patrol")
 			guard_movement.set_state(guard_movement.State.PATROL)
 
 		State.INVESTIGATE:
+			print("Investigate")
 			guard_movement.set_state(guard_movement.State.INVESTIGATE, noise_sensor.get_last_sound_position())
 
 		State.CHASE:
+			print("Chase")
 			guard_movement.set_state(guard_movement.State.CHASE, vision_sensor.get_last_known_position())
 
 		State.SHOOT:
+			print("Shoot")
 			# Keep the guard planted on the ground, rotating continuously to look directly at the player
 			guard_movement.set_state(guard_movement.State.DEFAULT, player.global_position)
 			
@@ -170,6 +201,7 @@ func _execute_state(delta: float):
 				_fire_timer = fire_rate # Reset weapon cooldown
 
 		State.SEARCH_LOST:
+			print("Seach Lost")
 			if _has_search_destination:
 				guard_movement.set_state(guard_movement.State.CHASE, _search_destination)
 
@@ -219,6 +251,13 @@ func _start_search_lost() -> void:
 		return
 	if not chase_solver.navigation_map.is_valid():
 		chase_solver.navigation_map = nav_agent.get_navigation_map()
+
+	# Clear old noises so they don't interrupt us instantly
+	if noise_sensor.has_method("clear"):
+		noise_sensor.clear()
+	elif "sound_strength" in noise_sensor:
+		noise_sensor.register_sound(global_position)
+		noise_sensor.sound_strength = 0.0
 
 	_solver_pending = true
 	_has_search_destination = false
@@ -310,3 +349,6 @@ func set_targeted(targeted: bool):
 
 func investigate_sound(target_position: Vector3):
 	noise_sensor.register_sound(target_position)
+	# If called while in patrol, it forces the state shift immediately
+	if current_state == State.PATROL:
+		current_state = State.INVESTIGATE
