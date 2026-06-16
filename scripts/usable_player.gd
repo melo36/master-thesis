@@ -71,6 +71,15 @@ var throw_strength := 0.0
 @export var charge_speed := 1.5 
 @export var max_charge := 2.0
 
+# =========================
+# LIGHT DETECTION
+# =========================
+@onready var sub_viewport := $SubViewport
+@onready var light_detection := $SubViewport/LightDetection
+@onready var texture_rect := $TextureRect
+@onready var color_rect := $ColorRect
+@onready var light_level := $LightLevel
+
 # RE-REFERENCE: Make sure the node name matches exactly in your scene tree
 @onready var trajectory_line: MeshInstance3D = $"../TrajectoryLine"
 
@@ -83,6 +92,8 @@ func _ready():
 	audioPlayer = $RaytracedAudioPlayer3D
 	guards = get_tree().get_nodes_in_group("Guard")
 	state_machine = animationTree.get("parameters/playback")
+	sub_viewport.debug_draw = 2
+
 	
 	if trajectory_line:
 		# This is the magic line. It makes the line ignore the player's 
@@ -181,44 +192,26 @@ func _physics_process(delta):
 		animationTree.set("parameters/playback_speed", 1.0)
 	
 	if direction != Vector3.ZERO: emit_footsteps()
-	visibility = calculate_total_visibility()
 
 	update_noise()
 	move_and_slide()
 	
+func _process(delta: float) -> void:
+	# Light detection
+	light_detection.global_position = global_position # Make light detection follow the player
+	var texture = sub_viewport.get_texture() # Get the ViewportTexture from the SubViewport
+	texture_rect.texture = texture # Display this texture on the TextureRect
+	var color = get_average_color(texture) # Get the average color of the ViewportTexture
+	color_rect.color = color # Display the average color on the ColorRect
+	light_level.value = color.get_luminance() # Use the average color's brighness as the light level value
+	visibility = light_level.value # Assign visibility here
+	light_level.tint_progress.a = color.get_luminance() # Also tint the progress texture with the above
 	
-func calculate_total_visibility() -> float:
-	var total_light = base_ambient_light
-	var space_state = get_world_3d().direct_space_state
-	var ray_origin = global_position + Vector3(0, 1.0, 0) # Adjust based on stance height!
-
-	# --- PROCESS 1: THE SUN ---
-	if sun_light:
-		var sun_dir = sun_light.global_basis.z.normalized()
-		var sun_query = PhysicsRayQueryParameters3D.create(ray_origin, ray_origin + (sun_dir * 500.0))
-		sun_query.exclude = [self.get_rid()]
-		
-		var sun_hit = space_state.intersect_ray(sun_query)
-		if !sun_hit:
-			# No obstacle between player and sun
-			total_light += 1.0 
-
-	# --- PROCESS 2: LOCAL LIGHT POSTS ---
-	for light in light_posts:
-		var light_query = PhysicsRayQueryParameters3D.create(ray_origin, light.global_position)
-		light_query.exclude = [self.get_rid()]
-		
-		var light_hit = space_state.intersect_ray(light_query)
-		if !light_hit:
-			# Clear line of sight to the lamp post! Calculate intensity by distance
-			var dist = ray_origin.distance_to(light.global_position)
-			var max_range = light.get_light_range()
-			
-			var local_intensity = 1.0 - (dist / max_range)
-			total_light += clamp(local_intensity, 0.0, 1.0)
-
-	# Keep the final value within a clean 0.0 - 1.0 UI/AI friendly range
-	return clamp(total_light, 0.0, 1.0)
+	
+func get_average_color(texture: ViewportTexture) -> Color:
+	var image = texture.get_image() # Get the Image of the input texture
+	image.resize(1, 1, Image.INTERPOLATE_LANCZOS) # Resize the image to one pixel
+	return image.get_pixel(0, 0) # Read the color of that pixel
 
 # ==================================================
 # TRAJECTORY PREVIEW (FIXED ORIGIN)

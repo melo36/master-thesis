@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dpsoct00lvvod" path="res://resources/blade.png" id="8_ls0pu"]
 [ext_resource type="Texture2D" uid="uid://cnyloppek8r84" path="res://resources/bell.png" id="8_qowr5"]
 [ext_resource type="Script" uid="uid://6cjxmevy1c0i" path="res://scripts/inventory.gd" id="10_p16ke"]
+[ext_resource type="Texture2D" uid="uid://dairqkv1rcfbp" path="res://scenes/light-yt/player/assets/light_meter_ui.svg" id="10_vs5a8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_apgft"]
 
@@ -68,38 +69,71 @@ bg_color = Color(0.5007881, 0.48742193, 0.45133007, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qowr5"]
 bg_color = Color(0.14132595, 0.49891222, 0.23197144, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8e1wd"]
+cull_mode = 2
+backlight = Color(1, 1, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_n6ule"]
+material = SubResource("StandardMaterial3D_8e1wd")
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_td6ua"]
+material = SubResource("StandardMaterial3D_8e1wd")
+top_radius = 0.0
+bottom_radius = 0.4
+height = 0.4
+rings = 1
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="SphereMesh" id="SphereMesh_7ido1"]
+lightmap_size_hint = Vector2i(11, 6)
+material = SubResource("StandardMaterial3D_8e1wd")
+radius = 0.3
+height = 0.6
+radial_segments = 4
+rings = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b6co6"]
+atlas = ExtResource("10_vs5a8")
+region = Rect2(0, 128, 256, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkxso"]
+atlas = ExtResource("10_vs5a8")
+region = Rect2(0, 0, 256, 128)
+
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=527582928]
 
 [node name="hamster_character" parent="." unique_id=324042045 instance=ExtResource("1_ejryl")]
 
 [node name="Skeleton3D" parent="hamster_character" index="2" unique_id=1560551287]
-bones/0/position = Vector3(0.015286176, 0.16472381, -0.0035347342)
-bones/0/rotation = Quaternion(0.015134009, 0.09080287, -0.005132122, 0.9957407)
-bones/1/rotation = Quaternion(-0.03283303, -0.056323297, 0.0045494963, 0.9978623)
-bones/2/rotation = Quaternion(0.0058355452, -0.014647014, -0.003777774, 0.99986863)
-bones/3/rotation = Quaternion(0.005835548, -0.014647007, -0.003777774, 0.99986863)
-bones/4/rotation = Quaternion(0.064021915, 0.00703241, -0.004714693, 0.9979126)
-bones/5/rotation = Quaternion(-0.0013769774, 0.007463558, 0.03569107, 0.99933416)
-bones/7/rotation = Quaternion(-0.6555693, -0.34825867, 0.5089822, -0.43575436)
-bones/8/rotation = Quaternion(0.31667277, 0.62132347, 0.22061469, 0.68191254)
-bones/9/rotation = Quaternion(0.30517453, -0.8272162, 0.28298634, -0.37749243)
-bones/10/rotation = Quaternion(-0.0012971826, 0.11599755, 0.011449363, 0.9931827)
-bones/11/rotation = Quaternion(-0.28497863, -0.74297845, 0.12400303, 0.59278446)
-bones/12/rotation = Quaternion(0.37690163, 0.27444413, 0.39979416, 0.7891707)
-bones/15/rotation = Quaternion(0.6262158, -0.3700037, 0.571764, 0.37952223)
-bones/16/rotation = Quaternion(0.43970093, 0.010136603, 0.17133403, 0.88159233)
-bones/17/rotation = Quaternion(0.030299023, -0.15033515, -0.13284531, 0.9792005)
-bones/18/rotation = Quaternion(-0.016283154, 0.4042387, -0.16800724, 0.8989436)
-bones/19/rotation = Quaternion(-0.29871106, 0.94011456, 0.1441268, -0.07863708)
-bones/20/rotation = Quaternion(0.082381725, -0.1541522, -0.41912058, 0.890948)
-bones/23/rotation = Quaternion(0.0545207, -0.4811899, 0.8620359, -0.14959261)
-bones/24/rotation = Quaternion(0.014082819, -0.9755081, 0.20999411, -0.06393832)
-bones/25/rotation = Quaternion(0.7189045, -0.17719883, 0.67209214, 0.008311376)
-bones/26/rotation = Quaternion(0.27773905, 0.40879267, -0.16702807, 0.85314196)
-bones/28/rotation = Quaternion(-0.084596895, 0.5641681, 0.8158485, 0.09459947)
-bones/29/rotation = Quaternion(0.10459165, 0.14941935, 0.7387318, 0.64885277)
-bones/30/rotation = Quaternion(0.07258588, 0.8235529, -0.22106074, 0.51732385)
-bones/31/rotation = Quaternion(0.26596874, -0.5808296, 0.25910822, 0.72440356)
+bones/0/position = Vector3(0.0248386, 0.16144341, -0.037048638)
+bones/0/rotation = Quaternion(0.0047812345, -0.21114941, -0.017547427, 0.97728455)
+bones/1/rotation = Quaternion(-0.033672404, 0.1961874, 0.0041380315, 0.97997934)
+bones/2/rotation = Quaternion(0.005445003, 0.040170077, -0.007859, 0.9991471)
+bones/3/rotation = Quaternion(0.005445014, 0.04017007, -0.00785899, 0.9991471)
+bones/4/rotation = Quaternion(0.03986922, -0.020216228, 0.04226058, 0.9981062)
+bones/5/rotation = Quaternion(0.0130066965, -0.023136286, 0.0028571791, 0.9996437)
+bones/7/rotation = Quaternion(-0.63521624, -0.37343478, 0.5303081, -0.41930914)
+bones/8/rotation = Quaternion(0.4998191, 0.5943308, 0.09418777, 0.6229611)
+bones/9/rotation = Quaternion(0.2130802, -0.88945735, 0.18019691, -0.36192772)
+bones/10/rotation = Quaternion(0.015914422, 0.22233127, 0.008000283, 0.9748085)
+bones/11/rotation = Quaternion(-0.26364526, -0.75017786, 0.12035808, 0.5943385)
+bones/12/rotation = Quaternion(0.39743993, 0.25467697, 0.3640775, 0.8028878)
+bones/15/rotation = Quaternion(0.6232888, -0.38567954, 0.51257515, 0.44724625)
+bones/16/rotation = Quaternion(0.41472143, 0.12175717, -0.04397931, 0.9006926)
+bones/17/rotation = Quaternion(0.045042396, -0.071651325, -0.36587042, 0.92680967)
+bones/18/rotation = Quaternion(-0.1402011, 0.3193623, -0.12886572, 0.9283023)
+bones/19/rotation = Quaternion(-0.3695942, 0.9064821, 0.18734972, -0.08118125)
+bones/20/rotation = Quaternion(0.052826684, -0.16444758, -0.45297658, 0.8746305)
+bones/23/rotation = Quaternion(0.10788416, 0.6646887, 0.6939312, -0.25496957)
+bones/24/rotation = Quaternion(-0.18323448, 0.26057366, -0.07917305, 0.94459414)
+bones/25/rotation = Quaternion(0.03317386, -0.89901257, 0.010700291, 0.4365335)
+bones/26/rotation = Quaternion(0.2983235, 0.39771459, -0.21005407, 0.8418454)
+bones/28/rotation = Quaternion(-0.03750205, -0.5893134, 0.70189726, 0.3983008)
+bones/29/rotation = Quaternion(-0.036920995, 0.9162711, -0.12750569, -0.37792385)
+bones/30/rotation = Quaternion(0.8209186, 0.5617495, 0.030096248, -0.09810376)
+bones/31/rotation = Quaternion(0.32123548, -0.5051476, 0.39358693, 0.69765544)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1083905860]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9204389, -0.10208094)
@@ -229,6 +263,80 @@ show_percentage = false
 
 [node name="Inventory" type="Node3D" parent="." unique_id=307835782]
 script = ExtResource("10_p16ke")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1266131454]
+handle_input_locally = false
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="LightDetection" type="Node3D" parent="SubViewport" unique_id=503668736]
+
+[node name="Camera" type="Camera3D" parent="SubViewport/LightDetection" unique_id=1266556565]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3.3802974, 0)
+fov = 40.0
+size = 0.25
+far = 20.0
+
+[node name="MeshPlane" type="MeshInstance3D" parent="SubViewport/LightDetection" unique_id=1708404056]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
+layers = 524288
+mesh = SubResource("PlaneMesh_n6ule")
+
+[node name="MeshCone" type="MeshInstance3D" parent="SubViewport/LightDetection" unique_id=1845577802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
+layers = 524288
+mesh = SubResource("CylinderMesh_td6ua")
+
+[node name="MeshOctahedron" type="MeshInstance3D" parent="SubViewport/LightDetection" unique_id=532942116]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0.5, 0)
+visible = false
+layers = 524288
+mesh = SubResource("SphereMesh_7ido1")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1367579386]
+visible = false
+custom_minimum_size = Vector2(256, 256)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1534884097]
+visible = false
+custom_minimum_size = Vector2(256, 256)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="LightLevel" type="TextureProgressBar" parent="." unique_id=2137834161]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -192.0
+offset_right = 128.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+max_value = 1.0
+step = 0.0
+value = 0.25
+fill_mode = 7
+texture_under = SubResource("AtlasTexture_b6co6")
+texture_progress = SubResource("AtlasTexture_lkxso")
+tint_under = Color(1, 1, 1, 0.752941)
 
 [connection signal="body_entered" from="Shuriken" to="Shuriken" method="_on_body_entered"]
 

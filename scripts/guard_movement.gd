@@ -73,12 +73,7 @@ func _physics_process(delta: float) -> void:
 		move_along_nav(delta, speed * chase_speed_multiplier)
 		
 	elif state == State.DEFAULT:
-		var direction = (target_position - guard.global_position).normalized()
-	
-		# Rotation
-		if direction.length() > 0.01:
-			var target_rotation = atan2(direction.x, direction.z) + PI
-			guard.rotation.y = lerp_angle(guard.rotation.y, target_rotation, 5 * delta)
+		self.look_at(target_position, Vector3.UP)
 	
 	elif state == State.DEAD:
 		navigation_agent_3d.set_target_position(global_position)

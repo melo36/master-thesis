@@ -74,6 +74,7 @@ max_charge = 10.0
 environment = SubResource("Environment_gubc5")
 
 [node name="CameraController" type="Node3D" parent="." unique_id=1383509488 groups=["CameraController"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25.585985)
 script = ExtResource("3_7ykc4")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraController" unique_id=699619554]
@@ -207,11 +208,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2799997, 0.75, -3.1599998)
 use_collision = true
 collision_layer = 9
 size = Vector3(6, 1.5, 1)
-
-[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=1386001287]
-transform = Transform3D(0.2863577, 0.94677246, -0.14704148, -0.8458201, 0.32189348, 0.42540917, 0.45009738, 0.0025514483, 0.89297587, 6.2967606, 48.84115, 35.37471)
-visible = false
-shadow_enabled = true
 
 [node name="SunLight" type="DirectionalLight3D" parent="." unique_id=119315548]
 transform = Transform3D(0.28635767, 0.94677246, -0.1470414, 0.08712649, 0.12710106, 0.98805577, 0.9541531, -0.2957486, -0.04609257, 6.2967606, 14.676441, -28.203415)
