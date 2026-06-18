@@ -29,6 +29,7 @@ Player=""
 CameraController=""
 Guard=""
 Light=""
+EnvironmentSounds=""
 
 [input]
 

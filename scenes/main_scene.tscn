@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b7v3ess51jqqd" path="res://scenes/light_post.tscn" id="6_rt2n2"]
 [ext_resource type="Resource" uid="uid://clpd0nsohhqdc" path="res://resources/metal.tres" id="7_c16ls"]
 [ext_resource type="Resource" uid="uid://b8pyxi1wd2f65" path="res://resources/grass.tres" id="8_18nlu"]
+[ext_resource type="PackedScene" uid="uid://v7doygmpx6g3" path="res://scenes/generator.tscn" id="9_c1pb6"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_rt2n2"]
 panorama = ExtResource("3_gubc5")
@@ -264,3 +265,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.954969, 0, 1.8451576)
 [node name="Guard" parent="Guard2" unique_id=746730281 instance=ExtResource("4_pu3yx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6102085, 16.555035)
 attack_range = 20.0
+
+[node name="Generator" parent="." unique_id=949134492 groups=["EnvironmentSounds"] instance=ExtResource("9_c1pb6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8270254, 0.5157385, 1.7008531)

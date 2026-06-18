@@ -158,7 +158,7 @@ func _update_state():
 				# Fallback if no clear method exists: overwrite it with zero loudness/current pos
 				noise_sensor.register_sound(global_position) 
 				if "sound_strength" in noise_sensor:
-					noise_sensor.sound_strength = 0.0 # Or whatever your sensor uses internally
+					noise_sensor.sound_strength = 0.0
 					
 			current_state = State.PATROL
 			return
@@ -178,19 +178,19 @@ func _update_state():
 func _execute_state(delta: float):
 	match current_state:
 		State.PATROL:
-			print("Patrol")
+			#print("Patrol")
 			guard_movement.set_state(guard_movement.State.PATROL)
 
 		State.INVESTIGATE:
-			print("Investigate")
+			#print("Investigate")
 			guard_movement.set_state(guard_movement.State.INVESTIGATE, noise_sensor.get_last_sound_position())
 
 		State.CHASE:
-			print("Chase")
+			#print("Chase")
 			guard_movement.set_state(guard_movement.State.CHASE, vision_sensor.get_last_known_position())
 
 		State.SHOOT:
-			print("Shoot")
+			#print("Shoot")
 			# Keep the guard planted on the ground, rotating continuously to look directly at the player
 			guard_movement.set_state(guard_movement.State.DEFAULT, player.global_position)
 			
@@ -201,13 +201,13 @@ func _execute_state(delta: float):
 				_fire_timer = fire_rate # Reset weapon cooldown
 
 		State.SEARCH_LOST:
-			print("Seach Lost")
+			#print("Seach Lost")
 			if _has_search_destination:
 				guard_movement.set_state(guard_movement.State.CHASE, _search_destination)
 
 
 func _fire_gun() -> void:
-	print("BANG! Guard fired a hitscan shot.")
+	#print("BANG! Guard fired a hitscan shot.")
 	gun_sound_player.play()
 	
 	# Not every shot should hit
@@ -236,10 +236,10 @@ func _fire_gun() -> void:
 	# 6. Check for hits
 	if muzzle_raycast.is_colliding():
 		var collider = muzzle_raycast.get_collider()
-		print("Raycast hit: ", collider.name)
+		#print("Raycast hit: ", collider.name)
 		
 		if collider == player:
-			print("Player was HIT!")
+			#print("Player was HIT!")
 			if player.has_method("take_damage"):
 				player.take_damage(20)
 
@@ -319,13 +319,13 @@ func _on_search_destination_ready(dest: Vector3) -> void:
 	_solver_pending = false
 	_search_destination = dest
 	_has_search_destination = true
-	print("Solver: destination ready at ", dest, " (dist from guard=%.2f)" % global_position.distance_to(dest))
+	#print("Solver: destination ready at ", dest, " (dist from guard=%.2f)" % global_position.distance_to(dest))
 
 
 func _on_search_failed() -> void:
 	_solver_pending = false
 	_has_search_destination = false
-	print("Solver: failed (will fall back after min_search_duration)")
+	#print("Solver: failed (will fall back after min_search_duration)")
 	
 func handle_animation():
 	animationTree.set("parameters/conditions/dead", false) 
@@ -348,7 +348,7 @@ func set_targeted(targeted: bool):
 	shuriken_indicator.visible = targeted
 
 func investigate_sound(target_position: Vector3):
-	noise_sensor.register_sound(target_position)
-	# If called while in patrol, it forces the state shift immediately
-	if current_state == State.PATROL:
+	var sound_strength = noise_sensor.register_sound(target_position)
+	
+	if current_state == State.PATROL && sound_strength > 0.2:
 		current_state = State.INVESTIGATE
